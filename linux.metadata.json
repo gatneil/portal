@@ -1,0 +1,6 @@
+{
+  "title": "Deploy a VM Scale Set with Linux VMs",
+  "summary": "This template deploys a VM Scale Set of Linux VMs behind a load balancer with NAT rules for ssh connections.",
+  "longSummary": "This template deploys a VM Scale Set of Linux VMs behind a load balancer with NAT rules for ssh connections.",
+  "description": "This template allows you to deploy a VM Scale Set of Linux VMs using CentOS, CoreOS, Debian, OpenSuse, RHEL, SLES, or Ubuntu. WARNING: Provisioning a VM from RHEL or SLES requires a subscription with no spending limit and a verified payment method (usually a credit card). Manage at <a href='https://account.windowsazure.com/Subscriptions'></a>. These VMs are behind a load balancer with NAT rules for ssh connections. After it has deployed, you can look in the Azure Portal to find the public IP address of the load balancer. Then, you can connect to VM i with command 'ssh -p 50000+i {user-name}@{public-ip-address}."
+}

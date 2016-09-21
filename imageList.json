@@ -1,0 +1,90 @@
+{
+    "Public": {
+	"windows": [
+    	    {"label": "2012-R2-Datacenter", "value": "2012-R2-Datacenter"},
+	    {"label": "2012-Datacenter", "value": "2012-Datacenter"},
+	    {"label": "2008-R2-SP1", "value": "2008-R2-SP1"}
+	],
+	"windowsDefault": "2012-R2-Datacenter",
+	"linux": [
+	    {
+		"label": "CentOs7.2",
+		"value": "CentOs7.2"
+	    },
+	    {
+		"label": "CoreOsStable",
+		"value": "CoreOsStable"
+	    },
+	    {
+		"label": "Debian8.0",
+		"value": "Debian8.0"
+	    },
+	    {
+		"label": "OpenSuse13.2",
+		"value": "OpenSuse13.2"
+	    },
+	    {
+		"label": "RHEL7.2",
+		"value": "RHEL7.2"
+	    },
+	    {
+		"label": "SLES12-SP1",
+		"value": "SLES12-SP1"
+	    },
+	    {
+		"label": "Ubuntu14.04.4-LTS",
+		"value": "Ubuntu14.04.4-LTS"
+	    }
+	]
+    },
+
+    "China": {
+	"windows": [
+    	    {"label": "2012-R2-Datacenter", "value": "2012-R2-Datacenter"},
+	    {"label": "2012-Datacenter", "value": "2012-Datacenter"},
+	    {"label": "2008-R2-SP1", "value": "2008-R2-SP1"}
+	],
+	"windowsDefault": "2012-R2-Datacenter",
+	"linux": [
+	    {
+		"label": "CentOs7.2",
+		"value": "CentOs7.2"
+	    },
+	    {
+		"label": "OpenSuse13.2",
+		"value": "OpenSuse13.2"
+	    },
+	    {
+		"label": "SLES12-SP1",
+		"value": "SLES12-SP1"
+	    },
+	    {
+		"label": "Ubuntu14.04.3-LTS",
+		"value": "Ubuntu14.04.3-LTS"
+	    }
+	]
+    },
+
+    "Germany": {
+	"windows": [
+    	    {"label": "2012-R2-Datacenter", "value": "2012-R2-Datacenter"},
+	    {"label": "2012-Datacenter", "value": "2012-Datacenter"},
+	    {"label": "2008-R2-SP1", "value": "2008-R2-SP1"}
+	],
+	"windowsDefault": "2012-R2-Datacenter",
+	"linux": [
+	    {
+		"label": "CentOs7.2",
+		"value": "CentOs7.2"
+	    },
+	    {
+		"label": "SLES12-SP1",
+		"value": "SLES12-SP1"
+	    },
+	    {
+		"label": "Ubuntu14.04.4-LTS",
+		"value": "Ubuntu14.04.4-LTS"
+	    }
+	]
+    }
+}

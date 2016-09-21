@@ -1,0 +1,67 @@
+{
+  "$schema": "https://gallery.azure.com/schemas/2015-04-01/manifest.json#",
+  "name": "vmss",
+  "publisher": "microsoft",
+  "version": "GETS REPLACED",
+  "displayName": "ms-resource:displayName",
+  "publisherDisplayName": "ms-resource:publisherDisplayName",
+  "publisherLegalName": "ms-resource:publisherDisplayName",
+  "summary": "ms-resource:summary",
+  "longSummary": "ms-resource:longSummary",
+  "description": "ms-resource:description",
+  "uiDefinition": {
+    "path": "UIDefinition.json"
+  },
+  "icons": {
+    "small": "Icons\\Small.png",
+    "medium": "Icons\\Medium.png",
+    "large": "Icons\\Large.png",
+    "wide": "Icons\\Wide.png"
+  },
+  "artifacts": [
+    {
+      "name": "createuidefinition",
+      "type": "Custom",
+      "path": "Artifacts\\CreateUiDefinition.json",
+      "isDefault": false
+    },
+    {
+      "name": "DefaultTemplate",
+      "type": "Template",
+      "path": "Artifacts\\mainTemplate.json",
+      "isDefault": true
+    },
+    {
+      "name": "autoscaleyes",
+      "type": "Template",
+      "path": "Artifacts\\autoscaleYes.json",
+      "isDefault": false
+    },
+    {
+      "name": "autoscaleno",
+      "type": "Template",
+      "path": "Artifacts\\autoscaleNo.json",
+      "isDefault": false
+    }
+  ],
+  "screenshots": [
+  ],
+  "categories": [
+    "multiResourceSolution",
+    "readonlytemplate",
+    "virtualMachine",
+    "virtualMachine-Arm",
+    "appInfra"
+  ],
+  "links": [
+    {
+        "displayName": "ms-resource:link0Title",
+        "uri": "http://aka.ms/vmssoverview"
+    },
+    {
+      "displayName": "ms-resource:link1Title",
+      "uri": "http://aka.ms/vmssdoc"
+    }
+  ]
+  
+}

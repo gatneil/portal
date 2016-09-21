@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<Artifact xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>DefaultTemplate</Name>
+  <Type>Template</Type>
+  <Path>Artifacts\mainTemplate.json</Path>
+  <IsDefault>true</IsDefault>
+</Artifact>

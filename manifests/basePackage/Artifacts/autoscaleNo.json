@@ -1,0 +1,386 @@
+{
+    "$schema":"http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+	"location":{
+	    "type":"string",
+	    "metadata":{
+		"description":"location of resources"
+	    }
+	},
+	"pipName": {
+	    "type": "string"
+	},
+	"pipLabel": {
+	    "type": "string"
+	},
+	"vmSku":{
+	    "type":"string",
+	    "defaultValue":"Standard_D1_v2",
+	    "metadata":{
+		"description":"Size of VMs in the VM Scale Set."
+	    }
+	},
+	"osType": {
+	    "type": "string",
+	    "allowedValues": ["Windows", "Linux"]
+	},
+	"image":{
+	    "type":"string",
+	    "allowedValues":[
+		"CentOs7.2",
+		"CoreOsStable",
+		"Debian8.0",
+		"OpenSuse13.2",
+		"RHEL7.2",
+		"SLES12-SP1",
+		"Ubuntu14.04.4-LTS",
+		"2012-R2-Datacenter",
+		"2012-Datacenter",
+		"2008-R2-SP1"
+	    ],
+	    "metadata":{
+		"description":"The os disk image for the VMs in the scale set."
+	    }
+	},
+	"vmssName":{
+	    "type":"string",
+	    "metadata":{
+		"description":"String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+	    },
+	    "maxLength": 61
+	},
+	"instanceCount":{
+	    "type":"string",
+	    "metadata":{
+		"description":"Number of VM instances (100 or less)."
+	    }
+	},
+	"authenticationType":{
+	    "type":"string",
+	    "allowedValues": ["password", "sshPublicKey"],
+	    "metadata": {
+		"description": "password or sshPublicKey"
+	    }
+	},
+	"username":{
+	    "type":"string",
+	    "metadata":{
+		"description":"Admin username on all VMs."
+	    }
+	},
+	"password":{
+	    "defaultValue": "",
+	    "type":"securestring",
+	    "metadata":{
+		"description":"Admin password on all VMs."
+	    }
+	},
+	"sshPublicKey":{
+	    "type":"string",
+	    "defaultValue": "",
+	    "metadata":{
+		"description":"ssh public key for connecting to VMs."
+	    }
+	}
+    },
+    "variables":{
+	"instanceCount": "[int(parameters('instanceCount'))]",
+	"apiVersion":"2015-06-15",
+	"vmssApiVersion":"2016-03-30",
+	"resourceLocation": "[parameters('location')]",
+	"storageAccountTypes": ["SA_LOGIC_ERROR", "Premium_LRS", "Standard_LRS"],
+	"saTypeIndexOne": "[length(replace(substring(parameters('vmSku'), 10, 1), 'S', ''))]",
+	"saTypeIndexTwo": "[length(replace(substring(parameters('vmSku'), sub(length(parameters('vmSku')), 1), 1), 's', ''))]",
+	"saTypeIndex": "[add(variables('saTypeIndexOne'), variables('saTypeIndexTwo'))]",
+	"storageAccountType":"[variables('storageAccountTypes')[variables('saTypeIndex')]]",
+	"saCount":5,
+	"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
+
+
+	"newStorageAccountSuffix":"[concat(variables('namingInfix'), 'sa')]",
+	"uniqueStringArray":[
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '0')))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '1')))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '2')))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '3')))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '4')))]"
+	],
+
+
+	"vhdContainerName":"[concat(variables('namingInfix'), 'vhd')]",
+	"osDiskName":"[concat(variables('namingInfix'), 'osdisk')]",
+	"addressPrefix":"10.0.0.0/16",
+	"subnetPrefix":"10.0.0.0/24",
+	"virtualNetworkName":"[concat(variables('namingInfix'), 'vnet')]",
+	"publicIPAddressName":"[parameters('pipName')]",
+	"subnetName":"[concat(variables('namingInfix'), 'subnet')]",
+	"loadBalancerName":"[concat(variables('namingInfix'), 'lb')]",
+	"publicIPAddressID":"[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+	"lbID":"[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+	"natPoolName":"[concat(variables('namingInfix'), 'natpool')]",
+	"bePoolName":"[concat(variables('namingInfix'), 'bepool')]",
+	"natStartPort":50000,
+	"natEndPort":50119,
+	"natBackendPortWindows":3389,
+	"natBackendPortLinux":22,
+	"nicName":"[concat(variables('namingInfix'), 'nic')]",
+	"ipConfigName":"[concat(variables('namingInfix'), 'ipconfig')]",
+	"frontEndIPConfigID":"[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
+
+
+	"imageCentOs7.2":{
+	    "publisher":"OpenLogic",
+	    "offer":"CentOS",
+	    "sku":"7.2",
+	    "version":"latest"
+	},
+	"imageCoreOsStable":{
+	    "publisher":"CoreOS",
+	    "offer":"CoreOS",
+	    "sku":"Stable",
+	    "version":"latest"
+	},
+	"imageDebian8.0":{
+	    "publisher":"credativ",
+	    "offer":"Debian",
+	    "sku":"8",
+	    "version":"latest"
+	},
+	"imageOpenSuse13.2":{
+	    "publisher":"SUSE",
+	    "offer":"openSUSE",
+	    "sku":"13.2",
+	    "version":"latest"
+	},
+	"imageRHEL7.2":{
+	    "publisher":"RedHat",
+	    "offer":"RHEL",
+	    "sku":"7.2",
+	    "version":"latest"
+	},
+	"imageSLES12-SP1":{
+	    "publisher":"SUSE",
+	    "offer":"SLES",
+	    "sku":"12-SP1",
+	    "version":"latest"
+	},
+	"imageUbuntu14.04.4-LTS":{
+	    "publisher":"Canonical",
+	    "offer":"UbuntuServer",
+	    "sku":"14.04.4-LTS",
+	    "version":"latest"
+	},
+
+
+	"image2012-R2-Datacenter":{
+	    "publisher":"MicrosoftWindowsServer",
+	    "offer":"WindowsServer",
+	    "sku":"2012-R2-Datacenter",
+	    "version":"latest"
+	},
+
+	"image2012-Datacenter":{
+	    "publisher":"MicrosoftWindowsServer",
+	    "offer":"WindowsServer",
+	    "sku":"2012-Datacenter",
+	    "version":"latest"
+	},
+
+	"image2008-R2-SP1":{
+	    "publisher":"MicrosoftWindowsServer",
+	    "offer":"WindowsServer",
+	    "sku":"2008-R2-SP1",
+	    "version":"latest"
+	},
+
+
+	"imageReference":"[variables(concat('image', parameters('image')))]",
+
+
+	"osProfilepassword":{
+	    "computerNamePrefix":"[variables('namingInfix')]",
+	    "adminUsername":"[parameters('username')]",
+	    "adminPassword":"[parameters('password')]"
+	},
+
+	"sshKeyPath": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
+	"osProfilesshPublicKey":{
+	    "computerNamePrefix":"[variables('namingInfix')]",
+	    "adminUsername":"[parameters('username')]",
+	    "adminPassword":"[parameters('password')]",
+	    "linuxConfiguration": {
+		"disablePasswordAuthentication": "true",
+		"ssh": {
+		    "publicKeys": [
+			{
+			    "path": "[variables('sshKeyPath')]",
+			    "keyData": "[parameters('sshPublicKey')]"
+			}
+		    ]
+		}
+	    }
+	},
+
+	"osProfileReference":"[variables(concat('osProfile', parameters('authenticationType')))]"
+
+    },
+    "resources":[
+	{
+	    "type":"Microsoft.Network/virtualNetworks",
+	    "name":"[variables('virtualNetworkName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "properties":{
+		"addressSpace":{
+		    "addressPrefixes":[
+			"[variables('addressPrefix')]"
+		    ]
+		},
+		"subnets":[
+		    {
+			"name":"[variables('subnetName')]",
+			"properties":{
+			    "addressPrefix":"[variables('subnetPrefix')]"
+			}
+		    }
+		]
+	    }
+	},
+	{
+	    "type":"Microsoft.Storage/storageAccounts",
+	    "name":"[concat(variables('uniqueStringArray')[copyIndex()], variables('newStorageAccountSuffix'))]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "copy":{
+		"name":"storageLoop",
+		"count":"[variables('saCount')]"
+	    },
+	    "properties":{
+		"accountType":"[variables('storageAccountType')]"
+	    }
+	},
+	{
+	    "type":"Microsoft.Network/publicIPAddresses",
+	    "name":"[variables('publicIPAddressName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "properties":{
+		"publicIPAllocationMethod":"Dynamic",
+		"dnsSettings":{
+		    "domainNameLabel":"[parameters('pipLabel')]"
+		}
+	    }
+	},
+	{
+	    "type":"Microsoft.Network/loadBalancers",
+	    "name":"[variables('loadBalancerName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "dependsOn":[
+		"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+	    ],
+	    "properties":{
+		"frontendIPConfigurations":[
+		    {
+			"name":"LoadBalancerFrontEnd",
+			"properties":{
+			    "publicIPAddress":{
+				"id":"[variables('publicIPAddressID')]"
+			    }
+			}
+		    }
+		],
+		"backendAddressPools":[
+		    {
+			"name":"[variables('bePoolName')]"
+		    }
+		],
+		"inboundNatPools":[
+		    {
+			"name":"[variables('natPoolName')]",
+			"properties":{
+			    "frontendIPConfiguration":{
+				"id":"[variables('frontEndIPConfigID')]"
+			    },
+			    "protocol":"tcp",
+			    "frontendPortRangeStart":"[variables('natStartPort')]",
+			    "frontendPortRangeEnd":"[variables('natEndPort')]",
+			    "backendPort":"[variables(concat('natBackendPort', parameters('osType')))]"
+			}
+		    }
+		]
+	    }
+	},
+	{
+	    "type":"Microsoft.Compute/virtualMachineScaleSets",
+	    "name":"[variables('namingInfix')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('vmssApiVersion')]",
+	    "dependsOn":[
+		"storageLoop",
+		"[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]",
+		"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+	    ],
+	    "sku":{
+		"name":"[parameters('vmSku')]",
+		"tier":"Standard",
+		"capacity":"[variables('instanceCount')]"
+	    },
+	    "properties":{
+		"overprovision": "true",
+		"upgradePolicy":{
+		    "mode":"Manual"
+		},
+		"virtualMachineProfile":{
+		    "storageProfile":{
+			"osDisk":{
+			    "vhdContainers":[
+				"[concat('https://', variables('uniqueStringArray')[0], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
+				"[concat('https://', variables('uniqueStringArray')[1], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
+				"[concat('https://', variables('uniqueStringArray')[2], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
+				"[concat('https://', variables('uniqueStringArray')[3], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
+				"[concat('https://', variables('uniqueStringArray')[4], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]"
+			    ],
+			    "name":"[variables('osDiskName')]",
+			    "caching":"ReadOnly",
+			    "createOption":"FromImage"
+			},
+			"imageReference":"[variables('imageReference')]"
+		    },
+		    "osProfile": "[variables('osProfileReference')]",
+		    "networkProfile":{
+			"networkInterfaceConfigurations":[
+			    {
+				"name":"[variables('nicName')]",
+				"properties":{
+				    "primary":"true",
+				    "ipConfigurations":[
+					{
+					    "name":"[variables('ipConfigName')]",
+					    "properties":{
+						"subnet":{
+						    "id":"[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'), '/subnets/', variables('subnetName'))]"
+						},
+						"loadBalancerBackendAddressPools":[
+						    {
+							"id":"[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/', variables('bePoolName'))]"
+						    }
+						],
+						"loadBalancerInboundNatPools":[
+						    {
+							"id":"[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/inboundNatPools/', variables('natPoolName'))]"
+						    }
+						]
+					    }
+					}
+				    ]
+				}
+			    }
+			]
+		    }
+		}
+	    }
+	}
+    ]
+}
