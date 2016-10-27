@@ -162,78 +162,38 @@
 
 	
 
-	"imageCentOs7.2": {
-	    "publisher": "OpenLogic",
-	    "offer": "CentOS",
-	    "sku": "7.2",
-	    "version": "latest"
-	},
-	"imageCoreOsStable": {
-	    "publisher": "CoreOS",
-	    "offer": "CoreOS",
-	    "sku": "Stable",
-	    "version": "latest"
-	},
-	"imageDebian8.0": {
-	    "publisher": "credativ",
-	    "offer": "Debian",
-	    "sku": "8",
-	    "version": "latest"
-	},
-	"imageOpenSuse13.2": {
-	    "publisher": "SUSE",
-	    "offer": "openSUSE",
-	    "sku": "13.2",
-	    "version": "latest"
-	},
-	"imageRHEL7.2": {
-	    "publisher": "RedHat",
-	    "offer": "RHEL",
-	    "sku": "7.2",
-	    "version": "latest"
-	},
-	"imageSLES12-SP1": {
-	    "publisher": "SUSE",
-	    "offer": "SLES",
-	    "sku": "12-SP1",
-	    "version": "latest"
-	},
-	"imageUbuntu14.04.4-LTS": {
-	    "publisher": "Canonical",
-	    "offer": "UbuntuServer",
-	    "sku": "14.04.4-LTS",
-	    "version": "latest"
-	},
+	"imageCentOs6.8": {"sku": "6.8", "publisher": "OpenLogic", "version": "latest", "offer": "CentOS"},
+	"imageCentOs7.2": {"sku": "7.2", "publisher": "OpenLogic", "version": "latest", "offer": "CentOS"},
+
+	"imageCoreOsBeta": {"sku": "Beta", "publisher": "CoreOS", "version": "latest", "offer": "CoreOS"},
+	"imageCoreOsStable": {"sku": "Stable", "publisher": "CoreOS", "version": "latest", "offer": "CoreOS"},
+	
+	"imageDebian7.0": {"sku": "7", "publisher": "credativ", "version": "latest", "offer": "Debian"},
+	"imageDebian8.0": {"sku": "8", "publisher": "credativ", "version": "latest", "offer": "Debian"},
+
+	"imageOpenSuseLeap42.1": {"sku": "42.1", "publisher": "SUSE", "version": "latest", "offer": "openSUSE-Leap"},
+	"imageOpenSuse13.2": {"sku": "13.2", "publisher": "SUSE", "version": "latest", "offer": "openSUSE"},
+
+	"imageRHEL6.8": {"sku": "6.8", "publisher": "RedHat", "version": "latest", "offer": "RHEL"},
+	"imageRHEL7.2": {"sku": "7.2", "publisher": "RedHat", "version": "latest", "offer": "RHEL"},
+
+	"imageSLES11-SP4": {"sku": "11-SP4", "publisher": "SUSE", "version": "latest", "offer": "SLES"},
+	"imageSLES12-SP1": {"sku": "12-SP1", "publisher": "SUSE", "version": "latest", "offer": "SLES"},
+
+	"imageUbuntu14.04.5-LTS": {"sku": "14.04.5-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	"imageUbuntu16.04.0-LTS": {"sku": "16.04.0-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	"imageUbuntu14.04.3-LTS": {"sku": "14.04.3-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+
 
 	
-	"imageUbuntu14.04.3-LTS": {
-	    "publisher": "Canonical",
-	    "offer": "UbuntuServer",
-	    "sku": "14.04.3-LTS",
-	    "version": "latest"
-	},
+	"image2016-Datacenter": {"sku": "2016-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2016-Datacenter-with-Containers": {"sku": "2016-Datacenter-with-Containers", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2016-Nano-Server": {"sku": "2016-Nano-Server", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	
+	"image2008-R2-SP1": {"sku": "2008-R2-SP1", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2012-Datacenter": {"sku": "2012-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2012-R2-Datacenter": {"sku": "2012-R2-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
 
-
-	"image2012-R2-Datacenter":{
-	    "publisher":"MicrosoftWindowsServer",
-	    "offer":"WindowsServer",
-	    "sku":"2012-R2-Datacenter",
-	    "version":"latest"
-	},
-
-	"image2012-Datacenter":{
-	    "publisher":"MicrosoftWindowsServer",
-	    "offer":"WindowsServer",
-	    "sku":"2012-Datacenter",
-	    "version":"latest"
-	},
-
-	"image2008-R2-SP1":{
-	    "publisher":"MicrosoftWindowsServer",
-	    "offer":"WindowsServer",
-	    "sku":"2008-R2-SP1",
-	    "version":"latest"
-	},
 	
 	
 	"imageReference": "[variables(concat('image', parameters('image')))]",
