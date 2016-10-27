@@ -107,13 +107,13 @@
 	    "type": "string",
 	    "defaultValue": "1"
 	},
-    "baseUrl": {
-      "type": "string",
-      "metadata": {
-        "artifactsBaseUrl": "Base URL of the VMSS Template gallery package"
-      },
-      "defaultValue": "GETS REPLACED"
-    }
+	"baseUrl": {
+	    "type": "string",
+	    "metadata": {
+		"artifactsBaseUrl": "Base URL of the VMSS Template gallery package"
+	    },
+	    "defaultValue": "GETS REPLACED"
+	}
     },
     "variables":{
 	"baseTemplateUri":"[concat(parameters('baseUrl'), '/autoscale')]",
