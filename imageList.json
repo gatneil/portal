@@ -3,7 +3,6 @@
 	"windows": [
 	    {"label": "2016-Datacenter", "value": "2016-Datacenter"},
 	    {"label": "2016-Datacenter-with-Containers", "value": "2016-Datacenter-with-Containers"},
-	    {"label": "2016-Nano-Server", "value": "2016-Nano-Server"},
     	    {"label": "2012-R2-Datacenter", "value": "2012-R2-Datacenter"},
 	    {"label": "2012-Datacenter", "value": "2012-Datacenter"},
 	    {"label": "2008-R2-SP1", "value": "2008-R2-SP1"}
