@@ -106,10 +106,6 @@
 	"vmssApiVersion": "2016-03-30",
 	"insightsApiVersion": "2015-04-01",
 	"resourceLocation": "[parameters('location')]",
-	"storageAccountTypes": [
-	    "Premium_LRS",
-	    "Standard_LRS"
-	],
 	"storageAccountTypes": ["SA_LOGIC_ERROR", "Premium_LRS", "Standard_LRS"],
 	"saTypeIndexOne": "[length(replace(substring(parameters('vmSku'), 10, 1), 'S', ''))]",
 	"saTypeIndexTwo": "[length(replace(substring(parameters('vmSku'), sub(length(parameters('vmSku')), 1), 1), 's', ''))]",
