@@ -23,7 +23,7 @@ with open('imageList.json', 'r') as imageListFile:
 namingBases = []
 for autoscaleSetting in ['Yes', 'No']:
     for osType in ['Windows', 'Linux']:
-        for element in imageList['Public'][osType.lower()]:
+        for element in imageList['Public'][osType.lower()][0:1]:
             namingBase = 'nsgvmss' + str(random.randint(0, 100000))
             namingBases.append(namingBase)
             image = element['value']
@@ -37,7 +37,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'osType': {'value': osType},
                               'image': {'value': image},
                               'vmssName': {'value': namingBase},
-                              'instanceCount': {'value': '1'},
+                              'instanceCount': {'value': '2'},
                               'authenticationType': {'value': 'password'},
                               'username': {'value': 'negat'},
                               'password': {'value': password},
@@ -50,7 +50,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'scaleOutInterval': {'value': '1'},
                               'scaleInCPUPercentageThreshold': {'value': '25'},
                               'scaleInInterval': {'value': '1'},
-                              'baseUrl': {'value': 'https://raw.githubusercontent.com/gatneil/portal/newImages'}
+                              'baseUrl': {'value': 'https://raw.githubusercontent.com/gatneil/portal/hostMetrics'}
                           }
             }
             
