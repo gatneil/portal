@@ -50,7 +50,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'scaleOutInterval': {'value': '1'},
                               'scaleInCPUPercentageThreshold': {'value': '25'},
                               'scaleInInterval': {'value': '1'},
-                              'baseUrl': {'value': 'https://raw.githubusercontent.com/gatneil/portal/hostMetrics'}
+                              'baseUrl': {'value': 'https://raw.githubusercontent.com/gatneil/portal/vmssName'}
                           }
             }
             

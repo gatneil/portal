@@ -296,7 +296,7 @@
 	},
 	{
 	    "type": "Microsoft.Compute/virtualMachineScaleSets",
-	    "name": "[variables('namingInfix')]",
+	    "name": "[parameters('vmssName')]",
 	    "location": "[variables('resourceLocation')]",
 	    "apiVersion": "[variables('vmssApiVersion')]",
 	    "dependsOn": [
