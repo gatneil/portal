@@ -368,13 +368,13 @@
 	{
 	    "type": "Microsoft.Insights/autoscaleSettings",
 	    "apiVersion": "[variables('insightsApiVersion')]",
-	    "name": "autoscalewad",
+	    "name": "cpuautoscale",
 	    "location": "westus",
 	    "dependsOn": [
 		"[concat('Microsoft.Compute/virtualMachineScaleSets/', parameters('vmssName'))]"
 	    ],
 	    "properties": {
-		"name": "autoscalewad",
+		"name": "cpuautoscale",
 		"targetResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('vmssName'))]",
 		"enabled": true,
 		"profiles": [
