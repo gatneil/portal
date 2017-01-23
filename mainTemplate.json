@@ -112,7 +112,7 @@
 	    "metadata": {
 		"artifactsBaseUrl": "Base URL of the VMSS Template gallery package"
 	    },
-	    "defaultValue": "GETS REPLACED"
+	    "defaultValue": "https://raw.githubusercontent.com/gatneil/portal/md"
 	}
     },
     "variables":{
