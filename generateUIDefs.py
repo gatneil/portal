@@ -29,7 +29,6 @@ if args.hidekey:
     print("generating with hidekey")
     manifest["filters"] = [{"type": "HideKey", "value": "vmss"}]
 
-mainTemplate["parameters"]["baseUrl"]["defaultValue"] = "https://gallery.azure.com/artifact/20151001/microsoft.vmss." + args.version + "/Artifacts"
 resourceJson["description"] += " (Portal VMSS version " + args.version + ")."
 outputRootFolder = "releases/" + args.version + "/"
 subprocess.call(['mkdir', outputRootFolder])
@@ -51,6 +50,7 @@ def getElementByNameInVMSSStep(d, name):
 
 for environment in imageList:
     print(environment)
+    mainTemplate["parameters"]["baseUrl"]["defaultValue"] = imageList[environment]["urlBase"] + "/artifact/20151001/microsoft.vmss." + args.version + "/Artifacts"
     data = copy.deepcopy(base)
     imageWindowsElement = getElementByNameInVMSSStep(data, "imageWindows")
     imageLinuxElement = getElementByNameInVMSSStep(data, "imageLinux")

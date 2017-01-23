@@ -1,5 +1,6 @@
 {
     "Public": {
+	"urlBase": "https://gallery.azure.com",
 	"windows": [
 	    {"label": "2016-Datacenter", "value": "2016-Datacenter"},
 	    {"label": "2016-Datacenter-with-Containers", "value": "2016-Datacenter-with-Containers"},
@@ -27,6 +28,7 @@
     },
 
     "China": {
+	"urlBase": "https://gallery.windowsazure.cn",
 	"windows": [
     	    {"label": "2012-R2-Datacenter", "value": "2012-R2-Datacenter"},
 	    {"label": "2012-Datacenter", "value": "2012-Datacenter"},
@@ -42,6 +44,7 @@
     },
 
     "Germany": {
+	"urlBase": "https://gallery.microsoftazure.de",
 	"windows": [
     	    {"label": "2012-R2-Datacenter", "value": "2012-R2-Datacenter"},
 	    {"label": "2012-Datacenter", "value": "2012-Datacenter"},
