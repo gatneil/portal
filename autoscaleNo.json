@@ -75,7 +75,7 @@
     "variables":{
 	"instanceCount": "[int(parameters('instanceCount'))]",
 	"apiVersion":"2015-06-15",
-	"vmssApiVersion":"2016-03-30",
+	"vmssApiVersion":"2016-04-30-preview",
 	"resourceLocation": "[parameters('location')]",
 	"storageAccountTypes": ["SA_LOGIC_ERROR", "Premium_LRS", "Standard_LRS"],
 	"saTypeIndexOne": "[length(replace(substring(parameters('vmSku'), 10, 1), 'S', ''))]",
@@ -139,8 +139,7 @@
 	"imageUbuntu16.04.0-LTS": {"sku": "16.04.0-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
 	"imageUbuntu14.04.3-LTS": {"sku": "14.04.3-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
 	"imageUbuntu14.04.4-LTS": {"sku": "14.04.4-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
-
-
+	
 	
 	"image2016-Datacenter": {"sku": "2016-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
 	"image2016-Datacenter-with-Containers": {"sku": "2016-Datacenter-with-Containers", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},

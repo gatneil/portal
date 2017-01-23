@@ -103,7 +103,7 @@
     "variables": {
 	"instanceCount": "[int(parameters('instanceCount'))]",
 	"apiVersion": "2015-06-15",
-	"vmssApiVersion": "2016-03-30",
+	"vmssApiVersion": "2016-04-30-preview",
 	"insightsApiVersion": "2015-04-01",
 	"resourceLocation": "[parameters('location')]",
 	"storageAccountTypes": ["SA_LOGIC_ERROR", "Premium_LRS", "Standard_LRS"],
