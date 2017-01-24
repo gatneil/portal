@@ -71,6 +71,11 @@
 		"description": "ssh public key for connecting to VMs."
 	    }
 	},
+	"diskType": {
+	    "type": "string",
+	    "defaultValue": "Unmanaged",
+	    "allowedValues": ["Managed", "Unmanaged"]
+	},
 	"autoscaleYesOrNo": {
 	    "type": "string",
 	    "defaultValue": "No",
@@ -116,9 +121,9 @@
 	}
     },
     "variables":{
-	"baseTemplateUri":"[concat(parameters('baseUrl'), '/autoscale')]",
+	"baseTemplateUri":"[concat(parameters('baseUrl'), '/')]",
 
-	"parametersAutoscaleNo": {
+	"parametersNoUnmanaged": {
 	    "username": {"value": "[parameters('username')]"},
 	    "pipName": {"value": "[parameters('pipName')]"},
 	    "pipLabel": {"value": "[parameters('pipLabel')]"},
@@ -133,7 +138,44 @@
 	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
 	},
 
-	"parametersAutoscaleYes": {
+	"parametersNoManaged": {
+	    "username": {"value": "[parameters('username')]"},
+	    "pipName": {"value": "[parameters('pipName')]"},
+	    "pipLabel": {"value": "[parameters('pipLabel')]"},
+	    "instanceCount": {"value": "[parameters('instanceCount')]"},
+	    "authenticationType": {"value": "[parameters('authenticationType')]"},
+	    "vmssName": {"value": "[parameters('vmssName')]"},
+	    "osType": {"value": "[parameters('osType')]"},
+	    "image": {"value": "[parameters('image')]"},
+	    "vmSku": {"value": "[parameters('vmSku')]"},
+	    "location": {"value": "[parameters('location')]"},
+	    "password": {"value": "[parameters('password')]"},
+	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
+	},
+
+	"parametersYesUnmanaged": {
+	    "username": {"value": "[parameters('username')]"},
+	    "pipName": {"value": "[parameters('pipName')]"},
+	    "pipLabel": {"value": "[parameters('pipLabel')]"},
+	    "autoscaleDefault": {"value": "[parameters('autoscaleDefault')]"},
+	    "instanceCount": {"value": "[parameters('instanceCount')]"},
+	    "scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
+	    "scaleOutInterval": {"value": "[parameters('scaleOutInterval')]"},
+	    "authenticationType": {"value": "[parameters('authenticationType')]"},
+	    "autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
+	    "vmssName": {"value": "[parameters('vmssName')]"},
+	    "autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
+	    "osType": {"value": "[parameters('osType')]"},
+	    "image": {"value": "[parameters('image')]"},
+	    "scaleOutCPUPercentageThreshold": {"value": "[int(parameters('scaleOutCPUPercentageThreshold'))]"},
+	    "vmSku": {"value": "[parameters('vmSku')]"},
+	    "location": {"value": "[parameters('location')]"},
+	    "scaleInCPUPercentageThreshold": {"value": "[int(parameters('scaleInCPUPercentageThreshold'))]"},
+	    "password": {"value": "[parameters('password')]"},
+	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
+	},
+
+	"parametersYesManaged": {
 	    "username": {"value": "[parameters('username')]"},
 	    "pipName": {"value": "[parameters('pipName')]"},
 	    "pipLabel": {"value": "[parameters('pipLabel')]"},
@@ -166,10 +208,10 @@
 	    "properties":{
 		"mode":"Incremental",
 		"templateLink":{
-		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), '.json')]",
+		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), parameters('diskType'), '.json')]",
 		    "contentVersion":"1.0.0.0"
 		},
-		"parameters": "[variables(concat('parametersAutoscale', parameters('autoscaleYesOrNo')))]"
+		"parameters": "[variables(concat('parametersAutoscale', parameters('autoscaleYesOrNo'), parameters('diskType')))]"
 	    }
 	}
     ]

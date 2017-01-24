@@ -1,0 +1,301 @@
+{
+    "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+	"location":{
+	    "type":"string",
+	    "metadata":{
+		"description":"location of resources"
+	    }
+	},
+	"pipName": {
+	    "type": "string"
+	},
+	"pipLabel": {
+	    "type": "string"
+	},
+	"vmSku":{
+	    "type":"string",
+	    "defaultValue":"Standard_D1_v2",
+	    "metadata":{
+		"description":"Size of VMs in the VM Scale Set."
+	    }
+	},
+	"osType": {
+	    "type": "string",
+	    "allowedValues": ["Windows", "Linux"]
+	},
+	"image":{
+	    "type":"string",
+	    "metadata":{
+		"description":"The os disk image for the VMs in the scale set."
+	    }
+	},
+	"vmssName":{
+	    "type":"string",
+	    "metadata":{
+		"description":"String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+	    },
+	    "maxLength": 61
+	},
+	"instanceCount":{
+	    "type":"string",
+	    "metadata":{
+		"description":"Number of VM instances (100 or less)."
+	    }
+	},
+	"authenticationType":{
+	    "type":"string",
+	    "allowedValues": ["password", "sshPublicKey"],
+	    "metadata": {
+		"description": "password or sshPublicKey"
+	    }
+	},
+	"username":{
+	    "type":"string",
+	    "metadata":{
+		"description":"Admin username on all VMs."
+	    }
+	},
+	"password":{
+	    "defaultValue": "",
+	    "type":"securestring",
+	    "metadata":{
+		"description":"Admin password on all VMs."
+	    }
+	},
+	"sshPublicKey":{
+	    "type":"string",
+	    "defaultValue": "",
+	    "metadata":{
+		"description":"ssh public key for connecting to VMs."
+	    }
+	}
+    },
+    "variables":{
+	"instanceCount": "[int(parameters('instanceCount'))]",
+	"apiVersion":"2015-06-15",
+	"vmssApiVersion":"2016-04-30-preview",
+	"resourceLocation": "[parameters('location')]",
+	"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
+
+
+	"addressPrefix":"10.0.0.0/16",
+	"subnetPrefix":"10.0.0.0/21",
+	"virtualNetworkName":"[concat(variables('namingInfix'), 'vnet')]",
+	"publicIPAddressName":"[parameters('pipName')]",
+	"subnetName":"[concat(variables('namingInfix'), 'subnet')]",
+	"loadBalancerName":"[concat(variables('namingInfix'), 'lb')]",
+	"publicIPAddressID":"[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+	"lbID":"[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
+	"natPoolName":"[concat(variables('namingInfix'), 'natpool')]",
+	"bePoolName":"[concat(variables('namingInfix'), 'bepool')]",
+	"natStartPort":50000,
+	"natEndPort":50119,
+	"natBackendPortWindows":3389,
+	"natBackendPortLinux":22,
+	"nicName":"[concat(variables('namingInfix'), 'nic')]",
+	"ipConfigName":"[concat(variables('namingInfix'), 'ipconfig')]",
+	"frontEndIPConfigID":"[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
+
+
+	"imageCentOs6.8": {"sku": "6.8", "publisher": "OpenLogic", "version": "latest", "offer": "CentOS"},
+	"imageCentOs7.2": {"sku": "7.2", "publisher": "OpenLogic", "version": "latest", "offer": "CentOS"},
+
+	"imageCoreOsBeta": {"sku": "Beta", "publisher": "CoreOS", "version": "latest", "offer": "CoreOS"},
+	"imageCoreOsStable": {"sku": "Stable", "publisher": "CoreOS", "version": "latest", "offer": "CoreOS"},
+	
+	"imageDebian7.0": {"sku": "7", "publisher": "credativ", "version": "latest", "offer": "Debian"},
+	"imageDebian8.0": {"sku": "8", "publisher": "credativ", "version": "latest", "offer": "Debian"},
+
+	"imageOpenSuseLeap42.1": {"sku": "42.1", "publisher": "SUSE", "version": "latest", "offer": "openSUSE-Leap"},
+	"imageOpenSuse13.2": {"sku": "13.2", "publisher": "SUSE", "version": "latest", "offer": "openSUSE"},
+
+	"imageRHEL6.8": {"sku": "6.8", "publisher": "RedHat", "version": "latest", "offer": "RHEL"},
+	"imageRHEL7.2": {"sku": "7.2", "publisher": "RedHat", "version": "latest", "offer": "RHEL"},
+
+	"imageSLES11-SP4": {"sku": "11-SP4", "publisher": "SUSE", "version": "latest", "offer": "SLES"},
+	"imageSLES12-SP1": {"sku": "12-SP1", "publisher": "SUSE", "version": "latest", "offer": "SLES"},
+
+	"imageUbuntu14.04.5-LTS": {"sku": "14.04.5-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	"imageUbuntu16.04.0-LTS": {"sku": "16.04.0-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	"imageUbuntu14.04.3-LTS": {"sku": "14.04.3-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	"imageUbuntu14.04.4-LTS": {"sku": "14.04.4-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	
+	
+	"image2016-Datacenter": {"sku": "2016-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2016-Datacenter-with-Containers": {"sku": "2016-Datacenter-with-Containers", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2016-Nano-Server": {"sku": "2016-Nano-Server", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	
+	"image2008-R2-SP1": {"sku": "2008-R2-SP1", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2012-Datacenter": {"sku": "2012-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+	"image2012-R2-Datacenter": {"sku": "2012-R2-Datacenter", "publisher": "MicrosoftWindowsServer", "version": "latest", "offer": "WindowsServer"},
+
+
+	"imageReference":"[variables(concat('image', parameters('image')))]",
+
+
+	"osProfilepassword":{
+	    "computerNamePrefix":"[variables('namingInfix')]",
+	    "adminUsername":"[parameters('username')]",
+	    "adminPassword":"[parameters('password')]"
+	},
+
+	"sshKeyPath": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
+	"osProfilesshPublicKey":{
+	    "computerNamePrefix":"[variables('namingInfix')]",
+	    "adminUsername":"[parameters('username')]",
+	    "adminPassword":"[parameters('password')]",
+	    "linuxConfiguration": {
+		"disablePasswordAuthentication": "true",
+		"ssh": {
+		    "publicKeys": [
+			{
+			    "path": "[variables('sshKeyPath')]",
+			    "keyData": "[parameters('sshPublicKey')]"
+			}
+		    ]
+		}
+	    }
+	},
+
+	"osProfileReference":"[variables(concat('osProfile', parameters('authenticationType')))]"
+
+    },
+    "resources":[
+	{
+	    "type":"Microsoft.Network/virtualNetworks",
+	    "name":"[variables('virtualNetworkName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "properties":{
+		"addressSpace":{
+		    "addressPrefixes":[
+			"[variables('addressPrefix')]"
+		    ]
+		},
+		"subnets":[
+		    {
+			"name":"[variables('subnetName')]",
+			"properties":{
+			    "addressPrefix":"[variables('subnetPrefix')]"
+			}
+		    }
+		]
+	    }
+	},
+	{
+	    "type":"Microsoft.Network/publicIPAddresses",
+	    "name":"[variables('publicIPAddressName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "properties":{
+		"publicIPAllocationMethod":"Dynamic",
+		"dnsSettings":{
+		    "domainNameLabel":"[parameters('pipLabel')]"
+		}
+	    }
+	},
+	{
+	    "type":"Microsoft.Network/loadBalancers",
+	    "name":"[variables('loadBalancerName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('apiVersion')]",
+	    "dependsOn":[
+		"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+	    ],
+	    "properties":{
+		"frontendIPConfigurations":[
+		    {
+			"name":"LoadBalancerFrontEnd",
+			"properties":{
+			    "publicIPAddress":{
+				"id":"[variables('publicIPAddressID')]"
+			    }
+			}
+		    }
+		],
+		"backendAddressPools":[
+		    {
+			"name":"[variables('bePoolName')]"
+		    }
+		],
+		"inboundNatPools":[
+		    {
+			"name":"[variables('natPoolName')]",
+			"properties":{
+			    "frontendIPConfiguration":{
+				"id":"[variables('frontEndIPConfigID')]"
+			    },
+			    "protocol":"tcp",
+			    "frontendPortRangeStart":"[variables('natStartPort')]",
+			    "frontendPortRangeEnd":"[variables('natEndPort')]",
+			    "backendPort":"[variables(concat('natBackendPort', parameters('osType')))]"
+			}
+		    }
+		]
+	    }
+	},
+	{
+	    "type":"Microsoft.Compute/virtualMachineScaleSets",
+	    "name":"[parameters('vmssName')]",
+	    "location":"[variables('resourceLocation')]",
+	    "apiVersion":"[variables('vmssApiVersion')]",
+	    "dependsOn":[
+		"[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]",
+		"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+	    ],
+	    "sku":{
+		"name":"[parameters('vmSku')]",
+		"tier":"Standard",
+		"capacity":"[variables('instanceCount')]"
+	    },
+	    "properties":{
+		"overprovision": "true",
+		"upgradePolicy":{
+		    "mode":"Manual"
+		},
+		"virtualMachineProfile":{
+		    "storageProfile":{
+			"osDisk":{
+			    "createOption":"FromImage",
+			    "diskSizeGB": "100"
+			},
+			"imageReference":"[variables('imageReference')]"
+		    },
+		    "osProfile": "[variables('osProfileReference')]",
+		    "networkProfile":{
+			"networkInterfaceConfigurations":[
+			    {
+				"name":"[variables('nicName')]",
+				"properties":{
+				    "primary":"true",
+				    "ipConfigurations":[
+					{
+					    "name":"[variables('ipConfigName')]",
+					    "properties":{
+						"subnet":{
+						    "id":"[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'), '/subnets/', variables('subnetName'))]"
+						},
+						"loadBalancerBackendAddressPools":[
+						    {
+							"id":"[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/', variables('bePoolName'))]"
+						    }
+						],
+						"loadBalancerInboundNatPools":[
+						    {
+							"id":"[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/inboundNatPools/', variables('natPoolName'))]"
+						    }
+						]
+					    }
+					}
+				    ]
+				}
+			    }
+			]
+		    }
+		}
+	    }
+	}
+    ]
+}
