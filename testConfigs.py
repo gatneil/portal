@@ -19,6 +19,7 @@ random.seed()
 namingBases = []
 for autoscaleSetting in ['Yes', 'No']:
     for diskType in ['Unmanaged', 'Managed']:
+        for largeScaleEnabled in ['true', 'false']:
             namingBase = 'nsgvmss' + str(random.randint(0, 100000))
             namingBases.append(namingBase)
             parameters = {'$schema': 'http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json',
@@ -48,6 +49,12 @@ for autoscaleSetting in ['Yes', 'No']:
                               'baseUrl': {'value': 'https://raw.githubusercontent.com/gatneil/portal/md'}
                           }
             }
+
+            if diskType == 'Unmanaged' and largeScaleEnabled == 'true':
+                continue
+            
+            if diskType == 'Managed':
+                parameters['parameters']['largeScaleEnabled'] = {'value': largeScaleEnabled}
             
             with open('tmp/' + namingBase + '.json', 'w') as parametersFile:
                 parametersFile.write(json.dumps(parameters))
