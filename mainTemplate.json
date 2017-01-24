@@ -211,7 +211,7 @@
 		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), parameters('diskType'), '.json')]",
 		    "contentVersion":"1.0.0.0"
 		},
-		"parameters": "[variables(concat('parametersAutoscale', parameters('autoscaleYesOrNo'), parameters('diskType')))]"
+		"parameters": "[variables(concat('parameters', parameters('autoscaleYesOrNo'), parameters('diskType')))]"
 	    }
 	}
     ]
