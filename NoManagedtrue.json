@@ -187,8 +187,8 @@
 		"capacity":"[variables('instanceCount')]"
 	    },
 	    "properties":{
-		"largeScaleEnabled": "true",
-		"overprovision": "true",
+		"largeScaleEnabled": true,
+		"overprovision": true,
 		"upgradePolicy":{
 		    "mode":"Manual"
 		},
