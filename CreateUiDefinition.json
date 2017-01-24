@@ -1,6 +1,6 @@
 {
     "handler": "Microsoft.Compute.MultiVm",
-    "version": "0.1.0-preview",
+    "version": "0.1.2-preview",
     "parameters": {
 	"basics": [
 	    {
@@ -176,7 +176,8 @@
 			"label": "Operating system disk image",
 			"toolTip": "The operating system disk image for the virtual machines in the scale set. WARNING: Provisioning a VM from RHEL or SLES requires a subscription with no spending limit and a verified payment method. Manage at [https://account.windowsazure.com/Subscriptions](https://account.windowsazure.com/Subscriptions)",
 			"constraints": {
-			    "allowedValues": [ "GETS REPLACED" ]
+			    "allowedValues": [ "GETS REPLACED" ],
+			    "required": true
 			},
 			"visible": "[equals('Linux', basics('osType'))]"
 		    },
@@ -184,7 +185,6 @@
 			"name": "instanceCountfalse",
 			"type": "Microsoft.Common.TextBox",
 			"label": "Instance count",
-			"defaultValue": "2",
 			"toolTip": "The number of virtual machines in the scale set (1-100).",
 			"constraints": {
 			    "required": true,
@@ -197,7 +197,6 @@
 			"name": "instanceCounttrue",
 			"type": "Microsoft.Common.TextBox",
 			"label": "Instance count",
-			"defaultValue": "2",
 			"toolTip": "The number of virtual machines in the scale set (1-1000).",
 			"constraints": {
 			    "required": true,
@@ -230,7 +229,7 @@
 			},
 			"visible": "[equals('Windows', basics('osType'))]",
 			"osPlatform": "Windows",
-			"count": "[steps('vmssServiceConfig')[concat('instanceCount', basics('largeScaleEnabled'))]]"
+			"count": "[coalesce(steps('vmssServiceConfig').instanceCounttrue, steps('vmssServiceConfig').instanceCountfalse)]"
 		    },
 		    {
 			"name": "vmSkuLinux",
@@ -256,10 +255,10 @@
 			},
 			"visible": "[equals('Linux', basics('osType'))]",
 			"osPlatform": "Linux",
-			"count": "[steps('vmssServiceConfig')[concat('instanceCount', basics('largeScaleEnabled'))]]"
+			"count": "[coalesce(steps('vmssServiceConfig').instanceCounttrue, steps('vmssServiceConfig').instanceCountfalse)]"
 		    },
 		    {
-			"name": "diskTypefalse",
+			"name": "diskTypeIfSmall",
 			"type": "Microsoft.Common.OptionsGroup",
 			"label": "Disk Type",
 			"defaultValue": "Unmanaged",
@@ -277,22 +276,6 @@
 			    ]
 			},
 			"visible": "[equals('false', basics('largeScaleEnabled'))]"
-		    },
-		    {
-			"name": "diskTypetrue",
-			"type": "Microsoft.Common.OptionsGroup",
-			"label": "Disk Type",
-			"defaultValue": "Managed",
-			"toolTip": "Managed disks hides the underlying storage accounts and instead shows the abstraction of a disk. Unmanaged disks exposes the underlying storage accounts and VHD blobs.",
-			"constraints": {
-			    "allowedValues": [
-				{
-				    "label": "Managed",
-				    "value": "Managed"
-				}
-			    ]
-			},
-			"visible": "false"
 		    },
 		    {
 			"name": "autoscaleYesOrNo",
@@ -414,14 +397,14 @@
 	    "vmSku": "[coalesce(steps('vmssServiceConfig').vmSkuWindows, steps('vmssServiceConfig').vmSkuLinux)]",
 	    "image": "[coalesce(steps('vmssServiceConfig').imageWindows, steps('vmssServiceConfig').imageLinux)]",
 	    "vmssName": "[basics('vmssName')]",
-	    "instanceCount": "[steps('vmssServiceConfig')[concat('instanceCount', basics('largeScaleEnabled'))]]",
+	    "instanceCount": "[coalesce(steps('vmssServiceConfig').instanceCounttrue, steps('vmssServiceConfig').instanceCountfalse)]",
 	    "password": "[basics(concat('vmssAuth', basics('osType'))).password]",
 	    "authenticationType": "[basics(concat('vmssAuth', basics('osType'))).authenticationType]",
 	    "sshPublicKey": "[basics(concat('vmssAuth', basics('osType'))).sshPublicKey]",
 	    "username": "[basics(concat('adminUsername', basics('osType')))]",
 	    "location": "[location()]",
 	    "largeScaleEnabled": "[basics('largeScaleEnabled')]",
-	    "diskType": "[steps('vmssServiceConfig')[concat('diskType', basics('largeScaleEnabled'))]]",
+	    "diskTypeIfSmall": "[steps('vmssServiceConfig').diskTypeIfSmall]",
 	    "autoscaleYesOrNo": "[steps('vmssServiceConfig').autoscaleYesOrNo]",
 	    "autoscaleMin": "[steps('vmssServiceConfig').autoscaleMin]",
 	    "autoscaleMax": "[steps('vmssServiceConfig').autoscaleMax]",

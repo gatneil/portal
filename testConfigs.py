@@ -18,7 +18,7 @@ random.seed()
 
 namingBases = []
 for autoscaleSetting in ['Yes', 'No']:
-    for diskType in ['Unmanaged', 'Managed']:
+    for diskTypeIfSmall in ['Unmanaged', 'Managed']:
         for largeScaleEnabled in ['true', 'false']:
             namingBase = 'nsgvmss' + str(random.randint(0, 100000))
             namingBases.append(namingBase)
@@ -37,7 +37,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'username': {'value': 'negat'},
                               'password': {'value': password},
                               'sshPublicKey': {'value': ''},
-                              'diskType': {'value': diskType},
+                              'diskTypeIfSmall': {'value': diskTypeIfSmall},
                               'autoscaleYesOrNo': {'value': autoscaleSetting},
                               'autoscaleMin': {'value': '1'},
                               'autoscaleMax': {'value': '10'},
@@ -50,10 +50,10 @@ for autoscaleSetting in ['Yes', 'No']:
                           }
             }
 
-            if diskType == 'Unmanaged' and largeScaleEnabled == 'true':
+            if diskTypeIfSmall == 'Unmanaged' and largeScaleEnabled == 'true':
                 continue
             
-            if diskType == 'Managed':
+            if diskTypeIfSmall == 'Managed':
                 parameters['parameters']['largeScaleEnabled'] = {'value': largeScaleEnabled}
             
             with open('tmp/' + namingBase + '.json', 'w') as parametersFile:
