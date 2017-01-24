@@ -37,6 +37,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'username': {'value': 'negat'},
                               'password': {'value': password},
                               'sshPublicKey': {'value': ''},
+                              'largeScaleEnabled': {'value': largeScaleEnabled},
                               'diskTypeIfSmall': {'value': diskTypeIfSmall},
                               'autoscaleYesOrNo': {'value': autoscaleSetting},
                               'autoscaleMin': {'value': '1'},
@@ -52,9 +53,6 @@ for autoscaleSetting in ['Yes', 'No']:
 
             if diskTypeIfSmall == 'Unmanaged' and largeScaleEnabled == 'true':
                 continue
-            
-            if diskTypeIfSmall == 'Managed':
-                parameters['parameters']['largeScaleEnabled'] = {'value': largeScaleEnabled}
             
             with open('tmp/' + namingBase + '.json', 'w') as parametersFile:
                 parametersFile.write(json.dumps(parameters))
