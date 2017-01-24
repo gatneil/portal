@@ -1,67 +1,91 @@
 {
-  "$schema": "https://gallery.azure.com/schemas/2015-04-01/manifest.json#",
-  "name": "vmss",
-  "publisher": "microsoft",
-  "version": "GETS REPLACED",
-  "displayName": "ms-resource:displayName",
-  "publisherDisplayName": "ms-resource:publisherDisplayName",
-  "publisherLegalName": "ms-resource:publisherDisplayName",
-  "summary": "ms-resource:summary",
-  "longSummary": "ms-resource:longSummary",
-  "description": "ms-resource:description",
-  "uiDefinition": {
-    "path": "UIDefinition.json"
-  },
-  "icons": {
-    "small": "Icons\\Small.png",
-    "medium": "Icons\\Medium.png",
-    "large": "Icons\\Large.png",
-    "wide": "Icons\\Wide.png"
-  },
-  "artifacts": [
-    {
-      "name": "createuidefinition",
-      "type": "Custom",
-      "path": "Artifacts\\CreateUiDefinition.json",
-      "isDefault": false
+    "$schema": "https://gallery.azure.com/schemas/2015-04-01/manifest.json#",
+    "name": "vmss",
+    "publisher": "microsoft",
+    "version": "GETS REPLACED",
+    "displayName": "ms-resource:displayName",
+    "publisherDisplayName": "ms-resource:publisherDisplayName",
+    "publisherLegalName": "ms-resource:publisherDisplayName",
+    "summary": "ms-resource:summary",
+    "longSummary": "ms-resource:longSummary",
+    "description": "ms-resource:description",
+    "uiDefinition": {
+	"path": "UIDefinition.json"
     },
-    {
-      "name": "DefaultTemplate",
-      "type": "Template",
-      "path": "Artifacts\\mainTemplate.json",
-      "isDefault": true
+    "icons": {
+	"small": "Icons\\Small.png",
+	"medium": "Icons\\Medium.png",
+	"large": "Icons\\Large.png",
+	"wide": "Icons\\Wide.png"
     },
-    {
-      "name": "autoscaleyes",
-      "type": "Template",
-      "path": "Artifacts\\autoscaleYes.json",
-      "isDefault": false
-    },
-    {
-      "name": "autoscaleno",
-      "type": "Template",
-      "path": "Artifacts\\autoscaleNo.json",
-      "isDefault": false
-    }
-  ],
-  "screenshots": [
-  ],
-  "categories": [
-    "multiResourceSolution",
-    "readonlytemplate",
-    "virtualMachine",
-    "virtualMachine-Arm",
-    "appInfra"
-  ],
-  "links": [
-    {
-        "displayName": "ms-resource:link0Title",
-        "uri": "http://aka.ms/vmssoverview"
-    },
-    {
-      "displayName": "ms-resource:link1Title",
-      "uri": "http://aka.ms/vmssdoc"
-    }
-  ]
-  
+    "artifacts": [
+	{
+	    "name": "createuidefinition",
+	    "type": "Custom",
+	    "path": "Artifacts\\CreateUiDefinition.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "DefaultTemplate",
+	    "type": "Template",
+	    "path": "Artifacts\\mainTemplate.json",
+	    "isDefault": true
+	},
+	{
+	    "name": "YesManagedtrue",
+	    "type": "Template",
+	    "path": "Artifacts\\YesManagedtrue.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "NoManagedtrue",
+	    "type": "Template",
+	    "path": "Artifacts\\NoManagedtrue.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "YesManagedfalse",
+	    "type": "Template",
+	    "path": "Artifacts\\YesManagedfalse.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "NoManagedfalse",
+	    "type": "Template",
+	    "path": "Artifacts\\NoManagedfalse.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "YesUnmanagedfalse",
+	    "type": "Template",
+	    "path": "Artifacts\\YesUnmanagedfalse.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "NoUnmanagedfalse",
+	    "type": "Template",
+	    "path": "Artifacts\\NoUnmanagedfalse.json",
+	    "isDefault": false
+	}
+    ],
+    "screenshots": [
+    ],
+    "categories": [
+	"multiResourceSolution",
+	"readonlytemplate",
+	"virtualMachine",
+	"virtualMachine-Arm",
+	"appInfra"
+    ],
+    "links": [
+	{
+            "displayName": "ms-resource:link0Title",
+            "uri": "http://aka.ms/vmssoverview"
+	},
+	{
+	    "displayName": "ms-resource:link1Title",
+	    "uri": "http://aka.ms/vmssdoc"
+	}
+    ]
+    
 }

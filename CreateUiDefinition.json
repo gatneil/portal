@@ -101,6 +101,25 @@
 		},
 		"visible": "[equals('Linux', basics('osType'))]",
 		"osPlatform": "Linux"
+	    },
+	    {
+		"name": "largeScaleEnabled",
+		"type": "Microsoft.Common.OptionsGroup",
+		"label": "Large Scale",
+		"defaultValue": "Disabled",
+		"toolTip": "If enabled, the scale set can span Placement Groups. This changes the availability guarantees of the scale set and allows for capacity to be up to 1,000.",
+		"constraints": {
+		    "allowedValues": [
+			{
+			    "label": "Enabled",
+			    "value": "true"
+			},
+			{
+			    "label": "Disabled",
+			    "value": "false"
+			}
+		    ]
+		}
 	    }
 	],
 	"steps": [
@@ -162,16 +181,30 @@
 			"visible": "[equals('Linux', basics('osType'))]"
 		    },
 		    {
-			"name": "instanceCount",
+			"name": "instanceCountfalse",
 			"type": "Microsoft.Common.TextBox",
 			"label": "Instance count",
 			"defaultValue": "2",
 			"toolTip": "The number of virtual machines in the scale set (1-100).",
 			"constraints": {
 			    "required": true,
-			    "regex": "^[0-9][0-9]?$|^100$",
+			    "regex": "^[0-9]$|^[0-9][0-9]$|^100$",
 			    "validationMessage": "This value can be from 0 to 100"
-			}
+			},
+			"visible": "[equals('false', basics('largeScaleEnabled'))]"
+		    },
+		    {
+			"name": "instanceCounttrue",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Instance count",
+			"defaultValue": "2",
+			"toolTip": "The number of virtual machines in the scale set (1-1000).",
+			"constraints": {
+			    "required": true,
+			    "regex": "^[0-9]$|^[0-9][0-9]$|^[0-9][0-9][0-9]$|^1000$",
+			    "validationMessage": "This value can be from 0 to 1000"
+			},
+			"visible": "[equals('true', basics('largeScaleEnabled'))]"
 		    },
 		    {
 			"name": "vmSkuWindows",
@@ -197,7 +230,7 @@
 			},
 			"visible": "[equals('Windows', basics('osType'))]",
 			"osPlatform": "Windows",
-			"count": "[steps('vmssServiceConfig').instanceCount]"
+			"count": "[steps('vmssServiceConfig')[concat('instanceCount', basics('largeScaleEnabled'))]]"
 		    },
 		    {
 			"name": "vmSkuLinux",
@@ -223,7 +256,43 @@
 			},
 			"visible": "[equals('Linux', basics('osType'))]",
 			"osPlatform": "Linux",
-			"count": "[steps('vmssServiceConfig').instanceCount]"
+			"count": "[steps('vmssServiceConfig')[concat('instanceCount', basics('largeScaleEnabled'))]]"
+		    },
+		    {
+			"name": "diskTypefalse",
+			"type": "Microsoft.Common.OptionsGroup",
+			"label": "Disk Type",
+			"defaultValue": "Unmanaged",
+			"toolTip": "Managed disks hides the underlying storage accounts and instead shows the abstraction of a disk. Unmanaged disks exposes the underlying storage accounts and VHD blobs.",
+			"constraints": {
+			    "allowedValues": [
+				{
+				    "label": "Managed",
+				    "value": "Managed"
+				},
+				{
+				    "label": "Unmanaged",
+				    "value": "Unmanaged"
+				}
+			    ]
+			},
+			"visible": "[equals('false', basics('largeScaleEnabled'))]"
+		    },
+		    {
+			"name": "diskTypetrue",
+			"type": "Microsoft.Common.OptionsGroup",
+			"label": "Disk Type",
+			"defaultValue": "Managed",
+			"toolTip": "Managed disks hides the underlying storage accounts and instead shows the abstraction of a disk. Unmanaged disks exposes the underlying storage accounts and VHD blobs.",
+			"constraints": {
+			    "allowedValues": [
+				{
+				    "label": "Managed",
+				    "value": "Managed"
+				}
+			    ]
+			},
+			"visible": "false"
 		    },
 		    {
 			"name": "autoscaleYesOrNo",
@@ -345,12 +414,14 @@
 	    "vmSku": "[coalesce(steps('vmssServiceConfig').vmSkuWindows, steps('vmssServiceConfig').vmSkuLinux)]",
 	    "image": "[coalesce(steps('vmssServiceConfig').imageWindows, steps('vmssServiceConfig').imageLinux)]",
 	    "vmssName": "[basics('vmssName')]",
-	    "instanceCount": "[steps('vmssServiceConfig').instanceCount]",
+	    "instanceCount": "[steps('vmssServiceConfig')[concat('instanceCount', basics('largeScaleEnabled'))]]",
 	    "password": "[basics(concat('vmssAuth', basics('osType'))).password]",
 	    "authenticationType": "[basics(concat('vmssAuth', basics('osType'))).authenticationType]",
 	    "sshPublicKey": "[basics(concat('vmssAuth', basics('osType'))).sshPublicKey]",
 	    "username": "[basics(concat('adminUsername', basics('osType')))]",
 	    "location": "[location()]",
+	    "largeScaleEnabled": "[basics('largeScaleEnabled')]",
+	    "diskType": "[steps('vmssServiceConfig')[concat('diskType', basics('largeScaleEnabled'))]]",
 	    "autoscaleYesOrNo": "[steps('vmssServiceConfig').autoscaleYesOrNo]",
 	    "autoscaleMin": "[steps('vmssServiceConfig').autoscaleMin]",
 	    "autoscaleMax": "[steps('vmssServiceConfig').autoscaleMax]",
