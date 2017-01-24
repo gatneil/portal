@@ -229,7 +229,7 @@
 			"name": "autoscaleYesOrNo",
 			"type": "Microsoft.Common.OptionsGroup",
 			"label": "Autoscale",
-			"defaultValue": "Enabled",
+			"defaultValue": "Disabled",
 			"toolTip": "Autoscale the number of instances based on CPU usage.",
 			"constraints": {
 			    "allowedValues": [
