@@ -71,6 +71,11 @@
 		"description": "ssh public key for connecting to VMs."
 	    }
 	},
+	"largeScaleEnabled": {
+	    "type": "string",
+	    "defaultValue": "false",
+	    "allowedValues": ["true", "false"]
+	},
 	"diskType": {
 	    "type": "string",
 	    "defaultValue": "Unmanaged",
@@ -150,7 +155,8 @@
 	    "vmSku": {"value": "[parameters('vmSku')]"},
 	    "location": {"value": "[parameters('location')]"},
 	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
+	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"},
+	    "largeScaleEnabled": {"value": "[parameters('largeScaleEnabled')]"}
 	},
 
 	"parametersYesUnmanaged": {
@@ -194,7 +200,8 @@
 	    "location": {"value": "[parameters('location')]"},
 	    "scaleInCPUPercentageThreshold": {"value": "[int(parameters('scaleInCPUPercentageThreshold'))]"},
 	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
+	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"},
+	    "largeScaleEnabled": {"value": "[parameters('largeScaleEnabled')]"}
 	}
 	
     },

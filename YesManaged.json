@@ -98,6 +98,9 @@
 	"scaleInInterval": {
 	    "type": "string",
 	    "defaultValue": "1"
+	},
+	"largeScaleEnabled": {
+	    "type": "string"
 	}
     },
     "variables": {
@@ -281,6 +284,7 @@
 		"capacity": "[variables('instanceCount')]"
 	    },
 	    "properties": {
+		"largeScaleEnabled": "[parameters('largeScaleEnabled')]",
 		"overprovision": "true",
 		"upgradePolicy": {
 		    "mode": "Manual"
