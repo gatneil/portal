@@ -155,8 +155,7 @@
 	    "vmSku": {"value": "[parameters('vmSku')]"},
 	    "location": {"value": "[parameters('location')]"},
 	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"},
-	    "largeScaleEnabled": {"value": "[parameters('largeScaleEnabled')]"}
+	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
 	},
 
 	"parametersYesUnmanaged": {
@@ -200,8 +199,7 @@
 	    "location": {"value": "[parameters('location')]"},
 	    "scaleInCPUPercentageThreshold": {"value": "[int(parameters('scaleInCPUPercentageThreshold'))]"},
 	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"},
-	    "largeScaleEnabled": {"value": "[parameters('largeScaleEnabled')]"}
+	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
 	}
 	
     },
@@ -215,7 +213,7 @@
 	    "properties":{
 		"mode":"Incremental",
 		"templateLink":{
-		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), parameters('diskType'), '.json')]",
+		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), parameters('diskType'), parameters('largeScaleEnabled'), '.json')]",
 		    "contentVersion":"1.0.0.0"
 		},
 		"parameters": "[variables(concat('parameters', parameters('autoscaleYesOrNo'), parameters('diskType')))]"

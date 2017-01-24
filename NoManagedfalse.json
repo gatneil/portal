@@ -70,9 +70,6 @@
 	    "metadata":{
 		"description":"ssh public key for connecting to VMs."
 	    }
-	},
-	"largeScaleEnabled": {
-	    "type": "string"
 	}
     },
     "variables":{
@@ -254,7 +251,7 @@
 		"capacity":"[variables('instanceCount')]"
 	    },
 	    "properties":{
-		"largeScaleEnabled": "[parameters('largeScaleEnabled')]",
+		"largeScaleEnabled": "false",
 		"overprovision": "true",
 		"upgradePolicy":{
 		    "mode":"Manual"
