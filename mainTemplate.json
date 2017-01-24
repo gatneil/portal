@@ -71,9 +71,9 @@
 		"description": "ssh public key for connecting to VMs."
 	    }
 	},
-	"largeScaleEnabled": {
+	"singlePlacementGroup": {
 	    "type": "string",
-	    "defaultValue": "false",
+	    "defaultValue": "true",
 	    "allowedValues": ["true", "false"]
 	},
 	"diskTypeIfSmall": {
@@ -128,9 +128,9 @@
     "variables":{
 	"baseTemplateUri":"[concat(parameters('baseUrl'), '/')]",
 
-	"diskTypefalse": "[parameters('diskTypeIfSmall')]",
-	"diskTypetrue": "Managed",
-	"diskType": "[variables(concat('diskType', parameters('largeScaleEnabled')))]",
+	"diskTypetrue": "[parameters('diskTypeIfSmall')]",
+	"diskTypefalse": "Managed",
+	"diskType": "[variables(concat('diskType', parameters('singlePlacementGroup')))]",
 
 	"parametersNoUnmanaged": {
 	    "username": {"value": "[parameters('username')]"},
@@ -217,7 +217,7 @@
 	    "properties":{
 		"mode":"Incremental",
 		"templateLink":{
-		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), variables('diskType'), parameters('largeScaleEnabled'), '.json')]",
+		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), variables('diskType'), parameters('singlePlacementGroup'), '.json')]",
 		    "contentVersion":"1.0.0.0"
 		},
 		"parameters": "[variables(concat('parameters', parameters('autoscaleYesOrNo'), variables('diskType')))]"

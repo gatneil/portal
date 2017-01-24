@@ -19,7 +19,7 @@ random.seed()
 namingBases = []
 for autoscaleSetting in ['Yes', 'No']:
     for diskTypeIfSmall in ['Unmanaged', 'Managed']:
-        for largeScaleEnabled in ['true', 'false']:
+        for singlePlacementGroup in ['true', 'false']:
             namingBase = 'nsgvmss' + str(random.randint(0, 100000))
             namingBases.append(namingBase)
             parameters = {'$schema': 'http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json',
@@ -37,7 +37,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'username': {'value': 'negat'},
                               'password': {'value': password},
                               'sshPublicKey': {'value': ''},
-                              'largeScaleEnabled': {'value': largeScaleEnabled},
+                              'singlePlacementGroup': {'value': singlePlacementGroup},
                               'diskTypeIfSmall': {'value': diskTypeIfSmall},
                               'autoscaleYesOrNo': {'value': autoscaleSetting},
                               'autoscaleMin': {'value': '1'},
@@ -51,7 +51,7 @@ for autoscaleSetting in ['Yes', 'No']:
                           }
             }
 
-            if diskTypeIfSmall == 'Unmanaged' and largeScaleEnabled == 'true':
+            if diskTypeIfSmall == 'Unmanaged' and singlePlacementGroup == 'false':
                 continue
             
             with open('tmp/' + namingBase + '.json', 'w') as parametersFile:

@@ -103,19 +103,19 @@
 		"osPlatform": "Linux"
 	    },
 	    {
-		"name": "largeScaleEnabled",
+		"name": "singlePlacementGroup",
 		"type": "Microsoft.Common.OptionsGroup",
-		"label": "Large Scale",
-		"defaultValue": "Disabled",
-		"toolTip": "If enabled, the scale set can span Placement Groups. This changes the availability guarantees of the scale set and allows for capacity to be up to 1,000.",
+		"label": "Limit to a single placement group",
+		"defaultValue": "True",
+		"toolTip": "If True, the scale set will be limited to 1 placement group and can have a max capacity of 100. If False, the scale set can span Placement Groups. This allows for capacity to be up to 1,000 but changes the availability guarantees of the scale set.",
 		"constraints": {
 		    "allowedValues": [
 			{
-			    "label": "Enabled",
+			    "label": "True",
 			    "value": "true"
 			},
 			{
-			    "label": "Disabled",
+			    "label": "False",
 			    "value": "false"
 			}
 		    ]
@@ -182,7 +182,7 @@
 			"visible": "[equals('Linux', basics('osType'))]"
 		    },
 		    {
-			"name": "instanceCountfalse",
+			"name": "instanceCounttrue",
 			"type": "Microsoft.Common.TextBox",
 			"label": "Instance count",
 			"toolTip": "The number of virtual machines in the scale set (1-100).",
@@ -191,10 +191,10 @@
 			    "regex": "^[0-9]$|^[0-9][0-9]$|^100$",
 			    "validationMessage": "This value can be from 0 to 100"
 			},
-			"visible": "[equals('false', basics('largeScaleEnabled'))]"
+			"visible": "[equals('true', basics('singlePlacementGroup'))]"
 		    },
 		    {
-			"name": "instanceCounttrue",
+			"name": "instanceCountfalse",
 			"type": "Microsoft.Common.TextBox",
 			"label": "Instance count",
 			"toolTip": "The number of virtual machines in the scale set (1-1000).",
@@ -203,7 +203,7 @@
 			    "regex": "^[0-9]$|^[0-9][0-9]$|^[0-9][0-9][0-9]$|^1000$",
 			    "validationMessage": "This value can be from 0 to 1000"
 			},
-			"visible": "[equals('true', basics('largeScaleEnabled'))]"
+			"visible": "[equals('false', basics('singlePlacementGroup'))]"
 		    },
 		    {
 			"name": "vmSkuWindows",
@@ -275,7 +275,7 @@
 				}
 			    ]
 			},
-			"visible": "[equals('false', basics('largeScaleEnabled'))]"
+			"visible": "[equals('true', basics('singlePlacementGroup'))]"
 		    },
 		    {
 			"name": "autoscaleYesOrNo",
@@ -403,7 +403,7 @@
 	    "sshPublicKey": "[basics(concat('vmssAuth', basics('osType'))).sshPublicKey]",
 	    "username": "[basics(concat('adminUsername', basics('osType')))]",
 	    "location": "[location()]",
-	    "largeScaleEnabled": "[basics('largeScaleEnabled')]",
+	    "singlePlacementGroup": "[basics('singlePlacementGroup')]",
 	    "diskTypeIfSmall": "[steps('vmssServiceConfig').diskTypeIfSmall]",
 	    "autoscaleYesOrNo": "[steps('vmssServiceConfig').autoscaleYesOrNo]",
 	    "autoscaleMin": "[steps('vmssServiceConfig').autoscaleMin]",
