@@ -32,18 +32,6 @@
 	    "isDefault": true
 	},
 	{
-	    "name": "YesManagedtrue",
-	    "type": "Template",
-	    "path": "Artifacts\\YesManagedtrue.json",
-	    "isDefault": false
-	},
-	{
-	    "name": "NoManagedtrue",
-	    "type": "Template",
-	    "path": "Artifacts\\NoManagedtrue.json",
-	    "isDefault": false
-	},
-	{
 	    "name": "YesManagedfalse",
 	    "type": "Template",
 	    "path": "Artifacts\\YesManagedfalse.json",
@@ -56,15 +44,27 @@
 	    "isDefault": false
 	},
 	{
-	    "name": "YesUnmanagedfalse",
+	    "name": "YesManagedtrue",
 	    "type": "Template",
-	    "path": "Artifacts\\YesUnmanagedfalse.json",
+	    "path": "Artifacts\\YesManagedtrue.json",
 	    "isDefault": false
 	},
 	{
-	    "name": "NoUnmanagedfalse",
+	    "name": "NoManagedtrue",
 	    "type": "Template",
-	    "path": "Artifacts\\NoUnmanagedfalse.json",
+	    "path": "Artifacts\\NoManagedtrue.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "YesUnmanagedtrue",
+	    "type": "Template",
+	    "path": "Artifacts\\YesUnmanagedtrue.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "NoUnmanagedtrue",
+	    "type": "Template",
+	    "path": "Artifacts\\NoUnmanagedtrue.json",
 	    "isDefault": false
 	}
     ],
