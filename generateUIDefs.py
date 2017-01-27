@@ -40,6 +40,13 @@ def getStepByName(d, name):
 
     return None
 
+def getBasicByName(d, name):
+    for basic in d["parameters"]["basics"]:
+        if basic["name"] == name:
+            return step
+
+    return None
+
 def getElementByNameInVMSSStep(d, name):
     vmssStep = getStepByName(d, "vmssServiceConfig")
     for element in vmssStep["elements"]:
@@ -63,6 +70,12 @@ for environment in imageList:
         autoscaleYesOrNoElement = getElementByNameInVMSSStep(data, "autoscaleYesOrNo")
         autoscaleYesOrNoElement["visible"] = False
         autoscaleYesOrNoElement["constraints"]["allowedValues"] = [{"label": "Disabled", "value": "No"}]
+
+        singlePlacementGroupElement = getBasicByName(data, "singlePlacementGroup")
+        singlePlacementGroupElement["visible"] = False
+
+        diskTypeElement = getElementByNameInVMSSStep(data, "diskType")
+        autoscaleYesOrNoElement["visible"] = False
 
     environmentRoot = outputRootFolder + environment + '/'
     subRoot = environmentRoot + 'microsoft.vmss.' + args.version + '/'
