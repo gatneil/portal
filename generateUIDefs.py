@@ -43,7 +43,7 @@ def getStepByName(d, name):
 def getBasicByName(d, name):
     for basic in d["parameters"]["basics"]:
         if basic["name"] == name:
-            return step
+            return basic
 
     return None
 
@@ -75,7 +75,7 @@ for environment in imageList:
         singlePlacementGroupElement["visible"] = False
 
         diskTypeElement = getElementByNameInVMSSStep(data, "diskType")
-        autoscaleYesOrNoElement["visible"] = False
+        diskTypeElement["visible"] = False
 
     environmentRoot = outputRootFolder + environment + '/'
     subRoot = environmentRoot + 'microsoft.vmss.' + args.version + '/'
