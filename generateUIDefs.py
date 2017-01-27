@@ -74,8 +74,8 @@ for environment in imageList:
         singlePlacementGroupElement = getBasicByName(data, "singlePlacementGroup")
         singlePlacementGroupElement["visible"] = False
 
-        diskTypeElement = getElementByNameInVMSSStep(data, "diskType")
-        diskTypeElement["visible"] = False
+        diskTypeIfSmallElement = getElementByNameInVMSSStep(data, "diskTypeIfSmall")
+        diskTypeIfSmallElement["visible"] = False
 
     environmentRoot = outputRootFolder + environment + '/'
     subRoot = environmentRoot + 'microsoft.vmss.' + args.version + '/'
