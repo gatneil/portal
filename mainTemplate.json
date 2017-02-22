@@ -8,204 +8,24 @@
 		"description": "location of resources"
 	    }
 	},
-	"pipName": {
-	    "type": "string"
-	},
-	"pipLabel": {
-	    "type": "string"
-	},
-	"vmSku": {
-	    "type": "string",
-	    "defaultValue": "Standard_D1_v2",
-	    "metadata": {
-		"description": "Size of VMs in the VM Scale Set."
-	    }
-	},
-	"osType": {
-	    "type": "string",
-	    "allowedValues": ["Windows", "Linux"]
-	},
-	"image": {
-	    "type": "string",
-	    "metadata": {
-		"description": "The os disk image for the VMs in the scale set."
-	    }
-	},
-	"vmssName": {
-	    "type": "string",
-	    "metadata": {
-		"description": "String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
-	    },
-	    "maxLength": 61
-	},
-	"instanceCount": {
-	    "type": "string",
-	    "metadata": {
-		"description": "Number of VM instances (100 or less)."
-	    }
-	},
-	"authenticationType": {
-	    "type": "string",
-	    "allowedValues": ["password", "sshPublicKey"],
-	    "metadata": {
-		"description": "password or sshPublicKey"
-	    }
-	},
-	"username": {
-	    "type": "string",
-	    "metadata": {
-		"description": "Admin username on all VMs."
-	    }
-	},
-	"password": {
-	    "defaultValue": "",
-	    "type": "securestring",
-	    "metadata": {
-		"description": "Admin password on all VMs."
-	    }
-	},
-	"sshPublicKey": {
-	    "type": "string",
-	    "defaultValue": "",
-	    "metadata": {
-		"description": "ssh public key for connecting to VMs."
-	    }
-	},
-	"singlePlacementGroup": {
-	    "type": "string",
-	    "defaultValue": "true",
-	    "allowedValues": ["true", "false"]
-	},
-	"diskTypeIfSmall": {
-	    "type": "string",
-	    "defaultValue": "Unmanaged",
-	    "allowedValues": ["Managed", "Unmanaged"]
-	},
-	"autoscaleYesOrNo": {
-	    "type": "string",
-	    "defaultValue": "No",
-	    "allowedValues": ["Yes", "No"]
-	},
-	"autoscaleMin": {
-	    "type": "string",
-	    "defaultValue": "1"
-	},
-	"autoscaleMax": {
-	    "type": "string",
-	    "defaultValue": "10"
-	},
-	"autoscaleDefault": {
-	    "type": "string",
-	    "defaultValue": "1",
-	    "metadata": {
-		"description": "Autoscale will ensure you have at least this many VMs, even if it cannot read from the diagnostics Storage Table."
-	    }
-	},
-	"scaleOutCPUPercentageThreshold": {
-	    "type": "string",
-	    "defaultValue": "75"
-	},
-	"scaleOutInterval": {
-	    "type": "string",
-	    "defaultValue": "1"
-	},
-	"scaleInCPUPercentageThreshold": {
-	    "type": "string",
-	    "defaultValue": "25"
-	},
-	"scaleInInterval": {
-	    "type": "string",
-	    "defaultValue": "1"
-	},
 	"baseUrl": {
 	    "type": "string",
 	    "metadata": {
 		"artifactsBaseUrl": "Base URL of the VMSS Template gallery package"
 	    },
-	    "defaultValue": "https://raw.githubusercontent.com/gatneil/portal/md"
+	    "defaultValue": "https://raw.githubusercontent.com/gatneil/portal/clean"
+	},
+	"vmssName":{
+	    "type":"string",
+	    "metadata":{
+		"description":"String used as a base for naming resources. Must be 3-61 characters in length."
+	    },
+	    "maxLength": 61
 	}
     },
     "variables":{
 	"baseTemplateUri":"[concat(parameters('baseUrl'), '/')]",
-
-	"diskTypetrue": "[parameters('diskTypeIfSmall')]",
-	"diskTypefalse": "Managed",
-	"diskType": "[variables(concat('diskType', parameters('singlePlacementGroup')))]",
-
-	"parametersNoUnmanaged": {
-	    "username": {"value": "[parameters('username')]"},
-	    "pipName": {"value": "[parameters('pipName')]"},
-	    "pipLabel": {"value": "[parameters('pipLabel')]"},
-	    "instanceCount": {"value": "[parameters('instanceCount')]"},
-	    "authenticationType": {"value": "[parameters('authenticationType')]"},
-	    "vmssName": {"value": "[parameters('vmssName')]"},
-	    "osType": {"value": "[parameters('osType')]"},
-	    "image": {"value": "[parameters('image')]"},
-	    "vmSku": {"value": "[parameters('vmSku')]"},
-	    "location": {"value": "[parameters('location')]"},
-	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
-	},
-
-	"parametersNoManaged": {
-	    "username": {"value": "[parameters('username')]"},
-	    "pipName": {"value": "[parameters('pipName')]"},
-	    "pipLabel": {"value": "[parameters('pipLabel')]"},
-	    "instanceCount": {"value": "[parameters('instanceCount')]"},
-	    "authenticationType": {"value": "[parameters('authenticationType')]"},
-	    "vmssName": {"value": "[parameters('vmssName')]"},
-	    "osType": {"value": "[parameters('osType')]"},
-	    "image": {"value": "[parameters('image')]"},
-	    "vmSku": {"value": "[parameters('vmSku')]"},
-	    "location": {"value": "[parameters('location')]"},
-	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
-	},
-
-	"parametersYesUnmanaged": {
-	    "username": {"value": "[parameters('username')]"},
-	    "pipName": {"value": "[parameters('pipName')]"},
-	    "pipLabel": {"value": "[parameters('pipLabel')]"},
-	    "autoscaleDefault": {"value": "[parameters('autoscaleDefault')]"},
-	    "instanceCount": {"value": "[parameters('instanceCount')]"},
-	    "scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
-	    "scaleOutInterval": {"value": "[parameters('scaleOutInterval')]"},
-	    "authenticationType": {"value": "[parameters('authenticationType')]"},
-	    "autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
-	    "vmssName": {"value": "[parameters('vmssName')]"},
-	    "autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
-	    "osType": {"value": "[parameters('osType')]"},
-	    "image": {"value": "[parameters('image')]"},
-	    "scaleOutCPUPercentageThreshold": {"value": "[int(parameters('scaleOutCPUPercentageThreshold'))]"},
-	    "vmSku": {"value": "[parameters('vmSku')]"},
-	    "location": {"value": "[parameters('location')]"},
-	    "scaleInCPUPercentageThreshold": {"value": "[int(parameters('scaleInCPUPercentageThreshold'))]"},
-	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
-	},
-
-	"parametersYesManaged": {
-	    "username": {"value": "[parameters('username')]"},
-	    "pipName": {"value": "[parameters('pipName')]"},
-	    "pipLabel": {"value": "[parameters('pipLabel')]"},
-	    "autoscaleDefault": {"value": "[parameters('autoscaleDefault')]"},
-	    "instanceCount": {"value": "[parameters('instanceCount')]"},
-	    "scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
-	    "scaleOutInterval": {"value": "[parameters('scaleOutInterval')]"},
-	    "authenticationType": {"value": "[parameters('authenticationType')]"},
-	    "autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
-	    "vmssName": {"value": "[parameters('vmssName')]"},
-	    "autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
-	    "osType": {"value": "[parameters('osType')]"},
-	    "image": {"value": "[parameters('image')]"},
-	    "scaleOutCPUPercentageThreshold": {"value": "[int(parameters('scaleOutCPUPercentageThreshold'))]"},
-	    "vmSku": {"value": "[parameters('vmSku')]"},
-	    "location": {"value": "[parameters('location')]"},
-	    "scaleInCPUPercentageThreshold": {"value": "[int(parameters('scaleInCPUPercentageThreshold'))]"},
-	    "password": {"value": "[parameters('password')]"},
-	    "sshPublicKey": {"value": "[parameters('sshPublicKey')]"}
-	}
-	
+	"vnetName": "[concat(parameters('vmssName'), 'Vnet')]"
     },
     
     "resources":
@@ -217,10 +37,10 @@
 	    "properties":{
 		"mode":"Incremental",
 		"templateLink":{
-		    "uri":"[concat(variables('baseTemplateUri'), parameters('autoscaleYesOrNo'), variables('diskType'), parameters('singlePlacementGroup'), '.json')]",
+		    "uri":"[concat(variables('baseTemplateUri'), 'vnet.json')]",
 		    "contentVersion":"1.0.0.0"
 		},
-		"parameters": "[variables(concat('parameters', parameters('autoscaleYesOrNo'), variables('diskType')))]"
+		"parameters": {"vnetName": "[variables('vnetName')]"}
 	    }
 	}
     ]
