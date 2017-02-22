@@ -15,7 +15,7 @@
     [
 	{
 	    "type":"Microsoft.Network/virtualNetworks",
-	    "name":"[parameters('virtualNetworkName')]",
+	    "name":"[parameters('vnetName')]",
 	    "location":"[parameters('location')]",
 	    "apiVersion":"2016-12-01",
 	    "properties":{
@@ -36,5 +36,5 @@
 	}
     ],
 
-    "outputs": {"vnetId": {"type": "object", "value": "[reference(parameters('virtualNetworkName')]"}}
+    "outputs": {"vnetId": {"type": "object", "value": "[reference(parameters('vnetName')]"}}
 }

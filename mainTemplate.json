@@ -42,7 +42,7 @@
 		},
 		"parameters": {
 		    "location": {"value": "[parameters('location')]"},
-		    "vnetName": {"value": "nsgvnet"}
+		    "vnetName": {"value": "[variables('vnetName')]"}
 		}
 	    }
 	}
