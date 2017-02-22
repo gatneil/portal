@@ -31,7 +31,7 @@
     "resources":
     [
 	{
-	    "name":"scaleSetPortalDeployment",
+	    "name":"vnetDep",
 	    "type":"Microsoft.Resources/deployments",
 	    "apiVersion":"2015-11-01",
 	    "properties":{
@@ -40,7 +40,10 @@
 		    "uri":"[concat(variables('baseTemplateUri'), 'vnet.json')]",
 		    "contentVersion":"1.0.0.0"
 		},
-		"parameters": {"vnetName": "[variables('vnetName')]"}
+		"parameters": {
+		    "location": {"value": "[parameters('location')]"},
+		    "vnetName": {"value": "nsgvnet"}
+		}
 	    }
 	}
     ]
