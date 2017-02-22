@@ -36,5 +36,5 @@
 	}
     ],
 
-    "outputs": {"vnetId": {"type": "object", "value": "[reference(parameters('vnetName')]"}}
+    "outputs": {"vnetId": {"type": "object", "value": "[reference(parameters('vnetName'))]"}}
 }
