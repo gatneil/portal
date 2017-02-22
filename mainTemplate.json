@@ -45,7 +45,7 @@
 		"location": {"value": "[parameters('location')]"},
 		"pipName": {"value": "[concat(parameters('vmssName'), 'Pip')]"},
 		"pipLabel": {"value": "[parameters('pipLabel')]"},
-		"lbName": {"value": "[concat(parameters('lbName'), 'Lb')]"},
+		"lbName": {"value": "[concat(parameters('vmssName'), 'Lb')]"},
 		"osType": {"value": "[parameters('osType')]"}
 	    }
 	},
