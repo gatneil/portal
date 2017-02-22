@@ -21,11 +21,39 @@
 		"description":"String used as a base for naming resources. Must be 3-61 characters in length."
 	    },
 	    "maxLength": 61
-	}
+	},
+	"singlePlacementGroup": {
+	    "type": "string",
+	    "defaultValue": "true",
+	    "allowedValues": ["true", "false"]
+	},
+	"pipLabel": {
+	    "type": "string"
+	},
+	"osType": {
+	    "type": "string",
+	    "allowedValues": ["Windows", "Linux"]
+	},
     },
     "variables":{
 	"baseTemplateUri":"[concat(parameters('baseUrl'), '/')]",
-	"vnetName": "[concat(parameters('vmssName'), 'Vnet')]"
+	
+	"_comment0": "concat lbLogic with parameters('singlePlacementGroup') to get back a template url and parameter set for either deploying the lb or not",
+	"lbLogictrue": {
+	    "templateUri": "[concat('baseTemplateUri', 'lb.json')]",
+	    "parameters": {
+		"location": {"value": "[parameters('location')]"},
+		"pipName": {"value": "[concat(parameters('vmssName'), 'Pip')]"},
+		"pipLabel": {"value": "[parameters('pipLabel')]"},
+		"lbName": {"value": "[concat(parameters('lbName'), 'Lb')]"},
+		"osType": {"value": "[parameters('osType')]"}
+	    }
+	},
+	"lbLogicfalse": {
+	    "templateUri": "[concat('baseTemplateUri', 'null.json')]",
+	    "parameters": {}
+	},
+	"lbLogic": "variables(concat('lbLogic', parameters('singlePlacementGroup')))"
     },
     
     "resources":
@@ -42,8 +70,21 @@
 		},
 		"parameters": {
 		    "location": {"value": "[parameters('location')]"},
-		    "vnetName": {"value": "[variables('vnetName')]"}
+		    "vnetName": {"value": "[concat(parameters('vmssName'), 'Vnet')]"}
 		}
+	    }
+	},
+	{
+	    "name":"lbDep",
+	    "type":"Microsoft.Resources/deployments",
+	    "apiVersion":"2015-11-01",
+	    "properties":{
+		"mode":"Incremental",
+		"templateLink":{
+		    "uri":"[variables('lbLogic').templateUri]",
+		    "contentVersion":"1.0.0.0"
+		},
+		"parameters": "[variables('lbLogic').parameters]"
 	    }
 	}
     ]
