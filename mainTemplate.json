@@ -33,7 +33,7 @@
 	"osType": {
 	    "type": "string",
 	    "allowedValues": ["Windows", "Linux"]
-	},
+	}
     },
     "variables":{
 	"baseTemplateUri":"[concat(parameters('baseUrl'), '/')]",

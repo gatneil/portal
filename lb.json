@@ -16,7 +16,7 @@
 	},
 	"osType": {
 	    "type": "string"
-	},
+	}
     },
     "variables": {
     	"natStartPort": 50000,
