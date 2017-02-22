@@ -3,10 +3,10 @@
     "contentVersion":"1.0.0.0",
     "parameters":{
 	"location": {
-	    "type": "string",
+	    "type": "string"
 	},
 	"vnetName": {
-	    "type": "string",
+	    "type": "string"
 	}
     },
     "variables":{},
