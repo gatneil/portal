@@ -36,5 +36,5 @@
 	}
     ],
 
-    "outputs": {"subnetId": {"type": "object", "value": "[reference(parameters('vnetName'))]"}}
+    "outputs": {"subnetId": {"type": "object", "value": "[reference(parameters('vnetName')).subnets]"}}
 }
