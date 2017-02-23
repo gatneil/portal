@@ -53,7 +53,7 @@
 	    "templateUri": "[concat('baseTemplateUri', 'null.json')]",
 	    "parameters": {}
 	},
-	"lbLogic": "variables(concat('lbLogic', parameters('singlePlacementGroup')))"
+	"lbLogic": "[variables(concat('lbLogic', parameters('singlePlacementGroup')))]"
     },
     
     "resources":
