@@ -44,13 +44,14 @@
 	    "location": "[parameters('location')]",
 	    "apiVersion": "2016-12-01",
 	    "kind": "Storage",
+	    "sku": {
+		"name": "[variables('storageAccountType')]"
+	    }
 	    "copy": {
 		"name":"storageLoop",
 		"count":"[variables('saCount')]"
 	    },
-	    "properties": {
-		"accountType":"[variables('storageAccountType')]"
-	    }
+	    "properties": {}
 	}
     ],
 
