@@ -60,11 +60,11 @@
 	    "type": "object",
 	    "value": {
 		"vhdContainers": [
-		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[0]))), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
-		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[1]))), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
-		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[2]))), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
-		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[3]))), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
-		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[4]))), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]"
+		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[0]), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
+		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[1]), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
+		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[2]), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
+		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[3]), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]",
+		    "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[4]), '2016-12-01').primaryEndpoints.blob, variables('vhdContainerName'))]"
 		],
 		"name": "[variables('osDiskName')]",
 		"createOption": "FromImage"
