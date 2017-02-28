@@ -43,6 +43,7 @@
 	    "name": "[variables('uniqueStringArray')[copyIndex()]]",
 	    "location": "[parameters('location')]",
 	    "apiVersion": "2016-12-01",
+	    "kind": "Storage",
 	    "copy": {
 		"name":"storageLoop",
 		"count":"[variables('saCount')]"
