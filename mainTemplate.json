@@ -39,9 +39,6 @@
 	    "defaultValue": "Unmanaged",
 	    "allowedValues": ["Managed", "Unmanaged"]
 	},
-	"image": {
-	    "type":"string"
-	},
 	"vmSku": {
 	    "type":"string"
 	}
