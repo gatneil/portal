@@ -3,5 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {},
     "variables": {},
-    "resources": []
+    "resources": [],
+    "outputs": {
+	"osDisk": {
+	    "type": "object",
+	    "value": {}
+	},
+	"loadBalancerBackendAddressPools": {"type": "array", "value": []},
+	"loadBalancerInboundNatPools": {"type": "array", "value": []}
+    }
 }

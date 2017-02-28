@@ -83,7 +83,13 @@
     ],
 
     "outputs": {
-	"bePoolId": {"type": "string", "value": "[reference(parameters('lbName'), '2016-12-01').backendAddressPools[0].id]"},
-	"natPoolId": {"type": "string", "value": "[reference(parameters('lbName'), '2016-12-01').inboundNatPools[0].id]"}
+	"loadBalancerBackendAddressPools": {
+	    "type": "array",
+	    "value": [{"id": "[reference(parameters('lbName'), '2016-12-01').backendAddressPools[0].id]"}]
+	},
+	"loadBalancerInboundNatPools": {
+	    "type": "array",
+	    "value": [{"id": "[reference(parameters('lbName'), '2016-12-01').inboundNatPools[0].id]"}]
+	}
     }
 }
