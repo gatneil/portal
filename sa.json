@@ -46,7 +46,7 @@
 	    "kind": "Storage",
 	    "sku": {
 		"name": "[variables('storageAccountType')]"
-	    }
+	    },
 	    "copy": {
 		"name":"storageLoop",
 		"count":"[variables('saCount')]"
