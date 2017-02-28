@@ -33,12 +33,24 @@
 	"osType": {
 	    "type": "string",
 	    "allowedValues": ["Windows", "Linux"]
+	},
+	"diskTypeIfSmall": {
+	    "type": "string",
+	    "defaultValue": "Unmanaged",
+	    "allowedValues": ["Managed", "Unmanaged"]
+	},
+	"image": {
+	    "type":"string"
+	},
+	"vmSku": {
+	    "type":"string"
 	}
     },
     "variables":{
 	"baseTemplateUri":"[concat(parameters('baseUrl'), '/')]",
 	
-	"_comment0": "concat lbLogic with parameters('singlePlacementGroup') to get back a template url and parameter set for either deploying the lb or not",
+	
+	"_comment0": "concat 'lbLogic' with parameters('singlePlacementGroup') to get back the name of a variable containing the template url and parameter set for either deploying the lb or not",
 	"lbLogictrue": {
 	    "templateUri": "[concat(variables('baseTemplateUri'), 'lb.json')]",
 	    "parameters": {
@@ -53,7 +65,27 @@
 	    "templateUri": "[concat(variables('baseTemplateUri'), 'null.json')]",
 	    "parameters": {}
 	},
-	"lbLogic": "[variables(concat('lbLogic', parameters('singlePlacementGroup')))]"
+	"lbLogic": "[variables(concat('lbLogic', parameters('singlePlacementGroup')))]",
+
+	
+	"_comment1": "if singlePlacementGroup is true (aka 'small scale set'), then customers can choose managed or unmanaged; if false (aka 'large scale set'), only managed is allowed",
+	"diskTypeIfSinglePlacementGrouptrue": "[parameters('diskTypeIfSmall')]",
+	"diskTypeIfSinglePlacementGroupfalse": "Managed",
+	"diskType": "[variables(concat('diskTypeIfSinglePlacementGroup', parameters('singlePlacementGroup')))]",
+
+	"saLogicUnmanaged": {
+	    "templateUri": "[concat(variables('baseTemplateUri'), 'sa.json')]",
+	    "parameters": {
+		"location": {"value": "[parameters('location')]"},
+		"vmssName": {"value": "[parameters('vmssName')]"},
+		"vmSku": {"value": "[parameters('vmSku')]"}
+	    }
+	},
+	"saLogicManaged": {
+	    "templateUri": "[concat(variables('baseTemplateUri'), 'null.json')]",
+	    "parameters": {}
+	},
+	"saLogic": "[variables(concat('saLogic', variables('diskType')))]"
     },
     
     "resources":
@@ -85,6 +117,19 @@
 		    "contentVersion":"1.0.0.0"
 		},
 		"parameters": "[variables('lbLogic').parameters]"
+	    }
+	},
+	{
+	    "name":"saDep",
+	    "type":"Microsoft.Resources/deployments",
+	    "apiVersion":"2015-11-01",
+	    "properties":{
+		"mode":"Incremental",
+		"templateLink":{
+		    "uri":"[variables('saLogic').templateUri]",
+		    "contentVersion":"1.0.0.0"
+		},
+		"parameters": "[variables('saLogic').parameters]"
 	    }
 	}
     ]

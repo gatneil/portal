@@ -1,0 +1,57 @@
+{
+    "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+	"location": {
+	    "type": "string"
+	},
+	"vmssName": {
+	    "type": "string"
+	},
+	"vmSku": {
+	    "type": "string"
+	}
+    },
+    "variables":{
+	"storageAccountTypes": ["SA_LOGIC_ERROR", "Premium_LRS", "Standard_LRS"],
+	"saTypeIndexOne": "[length(replace(substring(parameters('vmSku'), 10, 1), 'S', ''))]",
+	"saTypeIndexTwo": "[length(replace(substring(parameters('vmSku'), sub(length(parameters('vmSku')), 1), 1), 's', ''))]",
+	"saTypeIndex": "[add(variables('saTypeIndexOne'), variables('saTypeIndexTwo'))]",
+	"storageAccountType": "[variables('storageAccountTypes')[variables('saTypeIndex')]]",
+	"saCount": 5,
+	"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
+	
+	
+	"newStorageAccountSuffix": "[concat(variables('namingInfix'), 'sa')]",
+	"uniqueStringArray": [
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '0')), variables('newStorageAccountSuffix'))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '1')), variables('newStorageAccountSuffix'))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '2')), variables('newStorageAccountSuffix'))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '3')), variables('newStorageAccountSuffix'))]",
+	    "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), '4')), variables('newStorageAccountSuffix'))]"
+	],
+	
+	
+	"vhdContainerName":"[concat(variables('namingInfix'), 'vhd')]",
+	"osDiskName":"[concat(variables('namingInfix'), 'osdisk')]"
+    },
+    
+    "resources":
+    [
+	{
+	    "type": "Microsoft.Storage/storageAccounts",
+	    "name": "[variables('uniqueStringArray')[copyIndex()]]",
+	    "location": "[parameters('location')]",
+	    "apiVersion": "2016-12-01",
+	    "copy": {
+		"name":"storageLoop",
+		"count":"[variables('saCount')]"
+	    },
+	    "properties": {
+		"accountType":"[variables('storageAccountType')]"
+	    }
+	}
+    ],
+
+    "outputs": {"saNames": {"type": "array", "value": "[variables('uniqueStringArray')]"}}
+}
