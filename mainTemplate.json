@@ -40,7 +40,28 @@
 	    "allowedValues": ["Managed", "Unmanaged"]
 	},
 	"vmSku": {
+	    "type": "string"
+	},
+	"image": {
+	    "type": "string"
+	},
+	"instanceCount": {
+	    "type": "string"
+	},
+	"authenticationType":{
+	    "type":"string",
+	    "allowedValues": ["password", "sshPublicKey"]
+	},
+	"username":{
 	    "type":"string"
+	},
+	"password":{
+	    "type":"securestring",
+	    "defaultValue": ""
+	},
+	"sshPublicKey":{
+	    "type":"string",
+	    "defaultValue": ""
 	}
     },
     "variables":{

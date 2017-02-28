@@ -80,5 +80,7 @@
 		]
 	    }
 	}
-    ]
+    ],
+
+    "outputs": {"lbInfo": {"type": "object", "value": "[reference(parameters('lbName'), '2016-12-01')]"}}
 }
