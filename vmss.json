@@ -173,5 +173,5 @@
 	}
     ],
 
-    "outputs": {"vmssObject": {"type": "object", "value": "[reference(parameters('vmssName'))"}}
+    "outputs": {"vmssObject": {"type": "object", "value": "[reference(parameters('vmssName'), '2016-04-30-preview')"}}
 }
