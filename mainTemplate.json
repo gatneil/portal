@@ -103,7 +103,9 @@
 	    "templateUri": "[concat(variables('baseTemplateUri'), 'null.json')]",
 	    "parameters": {}
 	},
-	"saLogic": "[variables(concat('saLogic', variables('diskType')))]"
+	"saLogic": "[variables(concat('saLogic', variables('diskType')))]",
+
+	"vmssTemplateUri": "[concat(variables('baseTemplateUri'), 'vmss.json')]"
     },
     
     "resources":
@@ -148,6 +150,73 @@
 		    "contentVersion":"1.0.0.0"
 		},
 		"parameters": "[variables('saLogic').parameters]"
+	    }
+	},
+	{
+	    "name":"vmssDep",
+	    "type":"Microsoft.Resources/deployments",
+	    "apiVersion":"2015-11-01",
+	    "dependsOn": [
+		"vnetDep",
+		"lbDep",
+		"saDep"
+	    ],
+	    "properties":{
+		"mode":"Incremental",
+		"templateLink":{
+		    "uri":"[variables('vmssTemplateUri')]",
+		    "contentVersion":"1.0.0.0"
+		},
+		"parameters": {
+		    "location": {
+			"value": "[parameters('location')]"
+		    },
+		    "image": {
+			"value": "[parameters('image')]"
+		    },
+		    "vmssName": {
+			"value": "[parameters('vmssName')]"
+		    },
+		    "username": {
+			"value": "[parameters('username')]"
+		    },
+		    "password": {
+			"value": "[parameters('password')]"
+		    },
+		    "sshPublicKey": {
+			"value": "[parameters('sshPublicKey')]"
+		    },
+		    "authenticationType": {
+			"value": "[parameters('authenticationType')]"
+		    },
+		    "vmSku": {
+			"value": "[parameters('vmSku')]"
+		    },
+		    "instanceCount": {
+			"value": "[parameters('instanceCount')]"
+		    },
+		    "singlePlacementGroup": {
+			"value": "[parameters('singlePlacementGroup')]"
+		    },
+		    "osDisk": {
+			"value": "[reference('saDep').outputs.osDisk]"
+		    },
+		    "nicName": {
+			"value": "[concat(parameters('vmssName'), 'Nic')]"
+		    },
+		    "ipConfigName": {
+			"value": "[concat(parameters('vmssName'), 'IpConfig')]"
+		    },
+		    "subnetId": {
+			"value": "[reference('vnetDep').outputs.subnetId]"
+		    },
+		    "loadBalancerBackendAddressPools": {
+			"value": "[reference('lbDep').outputs.loadBalancerBackendAddressPools]"
+		    },
+		    "loadBalancerInboundNatPools": {
+			"value": "[reference('lbDep').outputs.loadBalancerInboundNatPools]"
+		    }
+		}
 	    }
 	}
     ]
