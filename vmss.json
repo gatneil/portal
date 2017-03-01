@@ -173,5 +173,5 @@
 	}
     ],
 
-    "outputs": {"vmssId": {"type": "string", "value": "[resourceId('Microsoft.Compute', parameters('vmssName'))]"}}
+    "outputs": {"vmssId": {"type": "string", "value": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('vmssName'))]"}}
 }
