@@ -37,11 +37,14 @@
 	},
 	"vmssId": {
 	    "type": "string"
+	},
+	"baseTemplateUri": {
+	    "type": "string"
 	}
     },
     "variables": {
 	"autoscaleLogicIfYes": {
-	    "templateUri": "[concat(variables('baseTemplateUri'), 'autoscaleHelper.json')]",
+	    "templateUri": "[concat(parameters('baseTemplateUri'), 'autoscaleHelper.json')]",
 	    "parameters": {
 		"autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
 		"autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
@@ -54,7 +57,7 @@
 	    }
 	},
 	"autoscaleLogicIfNo": {
-	    "templateUri": "[concat(variables('baseTemplateUri'), 'null.json')]",
+	    "templateUri": "[concat(parameters('baseTemplateUri'), 'null.json')]",
 	    "parameters": {}
 	},
 	"autoscaleLogic": "[variables(concat('autoscaleLogicIf', parameters('autoscaleYesOrNo')))]"

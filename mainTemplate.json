@@ -277,7 +277,8 @@
 		    "scaleOutInterval": {"value": "[parameters('scaleOutInterval')]"},
 		    "scaleInCPUPercentageThreshold": {"value": "[parameters('scaleInCPUPercentageThreshold')]"},
 		    "scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
-		    "vmssId": {"value": "[reference('vmssDep').outputs.vmssId.value]"}
+		    "vmssId": {"value": "[reference('vmssDep').outputs.vmssId.value]"},
+		    "baseTemplateUri": {"value": "[variables('baseTemplateUri')]"}
 		}
 	    }
 	}
