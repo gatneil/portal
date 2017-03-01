@@ -154,5 +154,5 @@
 	}
 
     ],
-    "outputs": {"subnetId": {"type": "string", "value": "[reference('vnetDep').outputs.subnetId]"}}
+    "outputs": {"subnetId": {"type": "string", "value": "[reference('vnetDep').outputs[0].subnetId]"}}
 }
