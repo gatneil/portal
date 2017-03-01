@@ -62,5 +62,19 @@
 	},
 	"autoscaleLogic": "[variables(concat('autoscaleLogicIf', parameters('autoscaleYesOrNo')))]"
     },
-    "resources": []
+    "resources": [
+	{
+	    "name":"saDep",
+	    "type":"Microsoft.Resources/deployments",
+	    "apiVersion":"2015-11-01",
+	    "properties":{
+		"mode":"Incremental",
+		"templateLink":{
+		    "uri":"[variables('autoscaleLogic').templateUri]",
+		    "contentVersion":"1.0.0.0"
+		},
+		"parameters": "[variables('autoscaleLogic').parameters]"
+	    }
+	}
+    ]
 }

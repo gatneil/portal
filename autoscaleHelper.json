@@ -1,0 +1,106 @@
+{
+    "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+	"autoscaleYesOrNo": {
+	    "type": "string",
+	    "defaultValue": "No",
+	    "allowedValues": ["Yes", "No"]
+	},
+	"autoscaleMin": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"autoscaleMax": {
+	    "type": "string",
+	    "defaultValue": "10"
+	},
+	"autoscaleDefault": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"scaleOutCPUPercentageThreshold": {
+	    "type": "string",
+	    "defaultValue": "75"
+	},
+	"scaleOutInterval": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"scaleInCPUPercentageThreshold": {
+	    "type": "string",
+	    "defaultValue": "25"
+	},
+	"scaleInInterval": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"vmssId": {
+	    "type": "string"
+	}
+    },
+    "variables": {},
+    "resources": [
+	{
+	    "type": "Microsoft.Insights/autoscaleSettings",
+	    "apiVersion": "2015-04-01",
+	    "name": "cpuautoscale",
+	    "location": "westus",
+	    "properties": {
+		"name": "cpuautoscale",
+		"targetResourceUri": "[parameters('vmssId')]",
+		"enabled": true,
+		"profiles": [
+		    {
+			"name": "Profile1",
+			"capacity": {
+			    "minimum": "[parameters('autoscaleMin')]",
+			    "maximum": "[parameters('autoscaleMax')]",
+			    "default": "[parameters('autoscaleDefault')]"
+			},
+			"rules": [
+			    {
+				"metricTrigger": {
+				    "metricName": "Percentage CPU",
+				    "metricNamespace": "",
+				    "metricResourceUri": "[parameters('vmssId')]",
+				    "timeGrain": "PT1M",
+				    "statistic": "Average",
+				    "timeWindow": "PT5M",
+				    "timeAggregation": "Average",
+				    "operator": "GreaterThan",
+				    "threshold": "[parameters('scaleOutCPUPercentageThreshold')]"
+				},
+				"scaleAction": {
+				    "direction": "Increase",
+				    "type": "ChangeCount",
+				    "value": "[parameters('scaleOutInterval')]",
+				    "cooldown": "PT1M"
+				}
+			    },
+			    {
+				"metricTrigger": {
+				    "metricName": "Percentage CPU",
+				    "metricNamespace": "",
+				    "metricResourceUri": "[parameters('vmssId')]",
+				    "timeGrain": "PT1M",
+				    "statistic": "Average",
+				    "timeWindow": "PT5M",
+				    "timeAggregation": "Average",
+				    "operator": "LessThan",
+				    "threshold": "[parameters('scaleInCPUPercentageThreshold')]"
+				},
+				"scaleAction": {
+				    "direction": "Decrease",
+				    "type": "ChangeCount",
+				    "value": "[parameters('scaleInInterval')]",
+				    "cooldown": "PT1M"
+				}
+			    }
+			]
+		    }
+		]
+	    }
+	}
+    ]
+}
