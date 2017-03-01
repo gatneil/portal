@@ -65,6 +65,39 @@
 	"sshPublicKey":{
 	    "type":"string",
 	    "defaultValue": ""
+	},
+	"autoscaleYesOrNo": {
+	    "type": "string",
+	    "defaultValue": "No",
+	    "allowedValues": ["Yes", "No"]
+	},
+	"autoscaleMin": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"autoscaleMax": {
+	    "type": "string",
+	    "defaultValue": "10"
+	},
+	"autoscaleDefault": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"scaleOutCPUPercentageThreshold": {
+	    "type": "string",
+	    "defaultValue": "75"
+	},
+	"scaleOutInterval": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"scaleInCPUPercentageThreshold": {
+	    "type": "string",
+	    "defaultValue": "25"
+	},
+	"scaleInInterval": {
+	    "type": "string",
+	    "defaultValue": "1"
 	}
     },
     "variables":{
@@ -108,7 +141,8 @@
 	},
 	"saLogic": "[variables(concat('saLogic', variables('diskType')))]",
 
-	"vmssTemplateUri": "[concat(variables('baseTemplateUri'), 'vmss.json')]"
+	"vmssTemplateUri": "[concat(variables('baseTemplateUri'), 'vmss.json')]",
+	"autoscaleTemplateUri": "[concat(variables('baseTemplateUri'), 'autoscale.json')]"
     },
     
     "resources":
@@ -155,7 +189,7 @@
 		"parameters": "[variables('saLogic').parameters]"
 	    }
 	},
-		{
+	{
 	    "name":"vmssDep",
 	    "type":"Microsoft.Resources/deployments",
 	    "apiVersion":"2015-11-01",
@@ -219,6 +253,31 @@
 		    "loadBalancerInboundNatPools": {
 			"value": "[reference('lbDep').outputs.loadBalancerInboundNatPools.value]"
 		    }
+		}
+	    }
+	},
+	{
+	    "name":"autoscaleDep",
+	    "type":"Microsoft.Resources/deployments",
+	    "apiVersion":"2015-11-01",
+	    "dependsOn": [
+		"vmssDep"
+	    ],
+	    "properties":{
+		"mode":"Incremental",
+		"templateLink":{
+		    "uri":"[variables('autoscaleTemplateUri')]",
+		    "contentVersion":"1.0.0.0"
+		},
+		"parameters": {
+		    "autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
+		    "autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
+		    "autoscaleDefault": {"value": "[parameters('autoscaleDefault')]"},
+		    "scaleOutCPUPercentageThreshold": {"value": "[parameters('scaleOutCPUPercentageThreshold')]"},
+		    "scaleOutInterval": {"value": "[parameters('scaleOutInterval')]"},
+		    "scaleInCPUPercentageThreshold": {"value": "[parameters('scaleInCPUPercentageThreshold')]"},
+		    "scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
+		    "vmssId": {"value": "[reference('vmssDep').outputs.vmssId.value]"}
 		}
 	    }
 	}

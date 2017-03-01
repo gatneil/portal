@@ -1,0 +1,63 @@
+{
+    "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+	"autoscaleYesOrNo": {
+	    "type": "string",
+	    "defaultValue": "No",
+	    "allowedValues": ["Yes", "No"]
+	},
+	"autoscaleMin": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"autoscaleMax": {
+	    "type": "string",
+	    "defaultValue": "10"
+	},
+	"autoscaleDefault": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"scaleOutCPUPercentageThreshold": {
+	    "type": "string",
+	    "defaultValue": "75"
+	},
+	"scaleOutInterval": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"scaleInCPUPercentageThreshold": {
+	    "type": "string",
+	    "defaultValue": "25"
+	},
+	"scaleInInterval": {
+	    "type": "string",
+	    "defaultValue": "1"
+	},
+	"vmssId": {
+	    "type": "string"
+	}
+    },
+    "variables": {
+	"autoscaleLogicIfYes": {
+	    "templateUri": "[concat(variables('baseTemplateUri'), 'autoscaleHelper.json')]",
+	    "parameters": {
+		"autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
+		"autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
+		"autoscaleDefault": {"value": "[parameters('autoscaleDefault')]"},
+		"scaleOutCPUPercentageThreshold": {"value": "[parameters('scaleOutCPUPercentageThreshold')]"},
+		"scaleOutInterval": {"value": "[parameters('scaleOutInterval')]"},
+		"scaleInCPUPercentageThreshold": {"value": "[parameters('scaleInCPUPercentageThreshold')]"},
+		"scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
+		"vmssId": {"value": "[parameters('vmssId')]"}
+	    }
+	}
+	"autoscaleLogicIfNo": {
+	    "templateUri": "[concat(variables('baseTemplateUri'), 'null.json')]",
+	    "parameters": {}
+	}
+	"autoscaleLogic": "[variables(concat('autoscaleLogicIf', parameters('autoscaleYesOrNo')))]"
+    },
+    "resources": []
+}
