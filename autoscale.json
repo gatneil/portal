@@ -52,11 +52,11 @@
 		"scaleInInterval": {"value": "[parameters('scaleInInterval')]"},
 		"vmssId": {"value": "[parameters('vmssId')]"}
 	    }
-	}
+	},
 	"autoscaleLogicIfNo": {
 	    "templateUri": "[concat(variables('baseTemplateUri'), 'null.json')]",
 	    "parameters": {}
-	}
+	},
 	"autoscaleLogic": "[variables(concat('autoscaleLogicIf', parameters('autoscaleYesOrNo')))]"
     },
     "resources": []
