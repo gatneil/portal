@@ -27,6 +27,9 @@
 	    "defaultValue": "true",
 	    "allowedValues": ["true", "false"]
 	},
+	"pipName": {
+	    "type": "string"
+	},
 	"pipLabel": {
 	    "type": "string"
 	},
@@ -73,7 +76,7 @@
 	    "templateUri": "[concat(variables('baseTemplateUri'), 'lb.json')]",
 	    "parameters": {
 		"location": {"value": "[parameters('location')]"},
-		"pipName": {"value": "[concat(parameters('vmssName'), 'Pip')]"},
+		"pipName": {"value": "[parameters('pipName')]"},
 		"pipLabel": {"value": "[parameters('pipLabel')]"},
 		"lbName": {"value": "[concat(parameters('vmssName'), 'Lb')]"},
 		"osType": {"value": "[parameters('osType')]"}
