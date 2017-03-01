@@ -7,7 +7,9 @@
     "outputs": {
 	"osDisk": {
 	    "type": "object",
-	    "value": {}
+	    "value": {
+		"createOption": "FromImage"
+	    }
 	},
 	"loadBalancerBackendAddressPools": {"type": "array", "value": []},
 	"loadBalancerInboundNatPools": {"type": "array", "value": []}
