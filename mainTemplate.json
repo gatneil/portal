@@ -28,10 +28,12 @@
 	    "allowedValues": ["true", "false"]
 	},
 	"pipName": {
-	    "type": "string"
+	    "type": "string",
+	    "defaultValue": ""
 	},
 	"pipLabel": {
-	    "type": "string"
+	    "type": "string",
+	    "defaultValue": ""
 	},
 	"osType": {
 	    "type": "string",
