@@ -23,7 +23,7 @@
 	    {"label": "SLES11-SP4", "value": "SLES11-SP4"},
 	    {"label": "SLES12-SP1", "value": "SLES12-SP1"},
 	    {"label": "Ubuntu14.04.5-LTS", "value": "Ubuntu14.04.5-LTS"},
-	    {"label": "Ubuntu16.04.0-LTS", "value": "Ubuntu16.04.0-LTS"}
+	    {"label": "Ubuntu16.04-LTS", "value": "Ubuntu16.04-LTS"}
 	]
     },
 

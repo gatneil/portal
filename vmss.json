@@ -77,7 +77,7 @@
 	"imageSLES12-SP1": {"sku": "12-SP1", "publisher": "SUSE", "version": "latest", "offer": "SLES"},
 
 	"imageUbuntu14.04.5-LTS": {"sku": "14.04.5-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
-	"imageUbuntu16.04.0-LTS": {"sku": "16.04.0-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
+	"imageUbuntu16.04-LTS": {"sku": "16.04-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
 	"imageUbuntu14.04.3-LTS": {"sku": "14.04.3-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
 	"imageUbuntu14.04.4-LTS": {"sku": "14.04.4-LTS", "publisher": "Canonical", "version": "latest", "offer": "UbuntuServer"},
 

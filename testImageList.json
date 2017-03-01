@@ -4,7 +4,7 @@
 	],
 	"windowsDefault": "2016-Datacenter",
 	"linux": [
-	    {"label": "Ubuntu16.04.0-LTS", "value": "Ubuntu16.04.0-LTS"}
+	    {"label": "Ubuntu16.04-LTS", "value": "Ubuntu16.04-LTS"}
 	]
     },
 

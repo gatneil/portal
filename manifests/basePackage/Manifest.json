@@ -32,39 +32,45 @@
 	    "isDefault": true
 	},
 	{
-	    "name": "YesManagedfalse",
+	    "name": "vnet",
 	    "type": "Template",
-	    "path": "Artifacts\\YesManagedfalse.json",
+	    "path": "Artifacts\\vnet.json",
 	    "isDefault": false
 	},
 	{
-	    "name": "NoManagedfalse",
+	    "name": "lb",
 	    "type": "Template",
-	    "path": "Artifacts\\NoManagedfalse.json",
+	    "path": "Artifacts\\lb.json",
 	    "isDefault": false
 	},
 	{
-	    "name": "YesManagedtrue",
+	    "name": "sa",
 	    "type": "Template",
-	    "path": "Artifacts\\YesManagedtrue.json",
+	    "path": "Artifacts\\sa.json",
 	    "isDefault": false
 	},
 	{
-	    "name": "NoManagedtrue",
+	    "name": "vmss",
 	    "type": "Template",
-	    "path": "Artifacts\\NoManagedtrue.json",
+	    "path": "Artifacts\\vmss.json",
 	    "isDefault": false
 	},
 	{
-	    "name": "YesUnmanagedtrue",
+	    "name": "autoscale",
 	    "type": "Template",
-	    "path": "Artifacts\\YesUnmanagedtrue.json",
+	    "path": "Artifacts\\autoscale.json",
 	    "isDefault": false
 	},
 	{
-	    "name": "NoUnmanagedtrue",
+	    "name": "autoscaleHelper",
 	    "type": "Template",
-	    "path": "Artifacts\\NoUnmanagedtrue.json",
+	    "path": "Artifacts\\autoscaleHelper.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "null",
+	    "type": "Template",
+	    "path": "Artifacts\\null.json",
 	    "isDefault": false
 	}
     ],
