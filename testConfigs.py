@@ -46,8 +46,7 @@ for autoscaleSetting in ['Yes', 'No']:
                               'scaleOutCPUPercentageThreshold': {'value': '75'},
                               'scaleOutInterval': {'value': '1'},
                               'scaleInCPUPercentageThreshold': {'value': '25'},
-                              'scaleInInterval': {'value': '1'},
-                              'baseUrl': {'value': 'https://raw.githubusercontent.com/gatneil/portal/md'}
+                              'scaleInInterval': {'value': '1'}
                           }
             }
 
