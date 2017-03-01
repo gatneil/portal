@@ -3,37 +3,28 @@
     "contentVersion":"1.0.0.0",
     "parameters":{
 	"autoscaleYesOrNo": {
-	    "type": "string",
-	    "defaultValue": "No",
-	    "allowedValues": ["Yes", "No"]
+	    "type": "string"
 	},
 	"autoscaleMin": {
-	    "type": "string",
-	    "defaultValue": "1"
+	    "type": "string"
 	},
 	"autoscaleMax": {
-	    "type": "string",
-	    "defaultValue": "10"
+	    "type": "string"
 	},
 	"autoscaleDefault": {
-	    "type": "string",
-	    "defaultValue": "1"
+	    "type": "string"
 	},
 	"scaleOutCPUPercentageThreshold": {
-	    "type": "string",
-	    "defaultValue": "75"
+	    "type": "string"
 	},
 	"scaleOutInterval": {
-	    "type": "string",
-	    "defaultValue": "1"
+	    "type": "string"
 	},
 	"scaleInCPUPercentageThreshold": {
-	    "type": "string",
-	    "defaultValue": "25"
+	    "type": "string"
 	},
 	"scaleInInterval": {
-	    "type": "string",
-	    "defaultValue": "1"
+	    "type": "string"
 	},
 	"vmssId": {
 	    "type": "string"

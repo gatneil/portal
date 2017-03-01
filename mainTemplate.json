@@ -270,6 +270,7 @@
 		    "contentVersion":"1.0.0.0"
 		},
 		"parameters": {
+		    "autoscaleYesOrNo": {"value": "[parameters('autoscaleYesOrNo')]"},
 		    "autoscaleMin": {"value": "[parameters('autoscaleMin')]"},
 		    "autoscaleMax": {"value": "[parameters('autoscaleMax')]"},
 		    "autoscaleDefault": {"value": "[parameters('autoscaleDefault')]"},
