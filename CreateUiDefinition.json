@@ -157,7 +157,7 @@
 			    "hideDomainNameLabel": false,
 			    "hideExisting": true
 			},
-			"visible": true
+			"visible": "[equals('true', basics('singlePlacementGroup'))]"
 		    },
 		    {
 			"name": "imageWindows",
