@@ -17,7 +17,6 @@
 	    {"label": "Debian7.0", "value": "Debian7.0"},
 	    {"label": "Debian8.0", "value": "Debian8.0"},
 	    {"label": "OpenSuseLeap42.1", "value": "OpenSuseLeap42.1"},
-	    {"label": "OpenSuse13.2", "value": "OpenSuse13.2"},
 	    {"label": "RHEL6.8", "value": "RHEL6.8"},
 	    {"label": "RHEL7.2", "value": "RHEL7.2"},
 	    {"label": "SLES11-SP4", "value": "SLES11-SP4"},
@@ -37,7 +36,6 @@
 	"windowsDefault": "2012-R2-Datacenter",
 	"linux": [
 	    {"label": "CentOs7.2", "value": "CentOs7.2"},
-	    {"label": "OpenSuse13.2", "value": "OpenSuse13.2"},
 	    {"label": "SLES12-SP1", "value": "SLES12-SP1"},
 	    {"label": "Ubuntu14.04.3-LTS", "value": "Ubuntu14.04.3-LTS"}
 	]
