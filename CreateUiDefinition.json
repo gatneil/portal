@@ -157,7 +157,7 @@
 			    "hideDomainNameLabel": false,
 			    "hideExisting": true
 			},
-			"visible": "[equals('true', basics('singlePlacementGroup'))]"
+			"visible": "[equals('true', coalesce(basics('singlePlacementGroup'), 'true'))]"
 		    },
 		    {
 			"name": "imageWindows",
@@ -191,7 +191,7 @@
 			    "regex": "^[0-9]$|^[0-9][0-9]$|^100$",
 			    "validationMessage": "This value can be from 0 to 100"
 			},
-			"visible": "[equals('true', basics('singlePlacementGroup'))]"
+			"visible": "[equals('true', coalesce(basics('singlePlacementGroup'), 'true'))]"
 		    },
 		    {
 			"name": "instanceCountfalse",
@@ -203,7 +203,7 @@
 			    "regex": "^[0-9]$|^[0-9][0-9]$|^[0-9][0-9][0-9]$|^1000$",
 			    "validationMessage": "This value can be from 0 to 1000"
 			},
-			"visible": "[equals('false', basics('singlePlacementGroup'))]"
+			"visible": "[equals('false', coalesce(basics('singlePlacementGroup'), 'true'))]"
 		    },
 		    {
 			"name": "vmSkuWindows",
@@ -275,7 +275,7 @@
 				}
 			    ]
 			},
-			"visible": "[equals('true', basics('singlePlacementGroup'))]"
+			"visible": "[equals('true', coalesce(basics('singlePlacementGroup'), 'true'))]"
 		    },
 		    {
 			"name": "autoscaleYesOrNo",
@@ -403,7 +403,7 @@
 	    "sshPublicKey": "[basics(concat('vmssAuth', basics('osType'))).sshPublicKey]",
 	    "username": "[basics(concat('adminUsername', basics('osType')))]",
 	    "location": "[location()]",
-	    "singlePlacementGroup": "[basics('singlePlacementGroup')]",
+	    "singlePlacementGroup": "[coalesce(basics('singlePlacementGroup'), 'true')]",
 	    "diskTypeIfSmall": "[steps('vmssServiceConfig').diskTypeIfSmall]",
 	    "autoscaleYesOrNo": "[steps('vmssServiceConfig').autoscaleYesOrNo]",
 	    "autoscaleMin": "[steps('vmssServiceConfig').autoscaleMin]",
