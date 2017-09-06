@@ -100,6 +100,14 @@
 	"scaleInInterval": {
 	    "type": "string",
 	    "defaultValue": "1"
+	},
+	"zoneSelected": {
+	    "type": "string",
+	    "allowedValues": ["true", "false"],
+	    "defaultValue": "false"
+	},
+	"zones": {
+	    "type": "array"
 	}
     },
     "variables":{
@@ -143,7 +151,7 @@
 	},
 	"saLogic": "[variables(concat('saLogic', variables('diskType')))]",
 
-	"vmssTemplateUri": "[concat(variables('baseTemplateUri'), 'vmss.json')]",
+	"vmssTemplateUri": "[concat(variables('baseTemplateUri'), 'vmss', parameters('zoneSelected'), '.json')]",
 	"autoscaleTemplateUri": "[concat(variables('baseTemplateUri'), 'autoscale.json')]"
     },
     
@@ -254,6 +262,9 @@
 		    },
 		    "loadBalancerInboundNatPools": {
 			"value": "[reference('lbDep').outputs.loadBalancerInboundNatPools.value]"
+		    },
+		    "zones": {
+			"value": "[parameters('zones')]"
 		    }
 		}
 	    }

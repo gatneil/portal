@@ -55,6 +55,9 @@
 	},
 	"loadBalancerInboundNatPools": {
 	    "type": "array"
+	},
+	"zones": {
+	    "type": "array"
 	}
     },
     "variables": {
