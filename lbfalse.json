@@ -16,6 +16,9 @@
 	},
 	"osType": {
 	    "type": "string"
+	},
+	"zones": {
+	    "type": "array"
 	}
     },
     "variables": {
