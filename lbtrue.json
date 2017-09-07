@@ -41,7 +41,8 @@
 		"dnsSettings":{
 		    "domainNameLabel":"[parameters('pipLabel')]"
 		}
-	    }
+	    },
+	    "zones": "[parameters('zones')]"
 	},
 	{
 	    "type":"Microsoft.Network/loadBalancers",
