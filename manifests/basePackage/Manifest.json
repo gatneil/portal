@@ -38,9 +38,15 @@
 	    "isDefault": false
 	},
 	{
-	    "name": "lb",
+	    "name": "lbtrue",
 	    "type": "Template",
-	    "path": "Artifacts\\lb.json",
+	    "path": "Artifacts\\lbtrue.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "lbfalse",
+	    "type": "Template",
+	    "path": "Artifacts\\lbfalse.json",
 	    "isDefault": false
 	},
 	{
@@ -50,9 +56,15 @@
 	    "isDefault": false
 	},
 	{
-	    "name": "vmss",
+	    "name": "vmsstrue",
 	    "type": "Template",
-	    "path": "Artifacts\\vmss.json",
+	    "path": "Artifacts\\vmsstrue.json",
+	    "isDefault": false
+	},
+	{
+	    "name": "vmssfalse",
+	    "type": "Template",
+	    "path": "Artifacts\\vmssfalse.json",
 	    "isDefault": false
 	},
 	{
