@@ -107,7 +107,8 @@
 	    "defaultValue": "false"
 	},
 	"zones": {
-	    "type": "array"
+	    "type": "array",
+	    "defaultValue": []
 	}
     },
     "variables":{
